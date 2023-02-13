@@ -1,0 +1,8 @@
+localCodeBasePath: /Users/yangyuyan/Desktop/localCodeBase/
+server:
+  port: 8110
+utils:
+  jenkins:
+    uri: http://127.0.0.1:8080
+    username: dop
+    password: 123456

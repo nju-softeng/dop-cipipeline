@@ -1,0 +1,28 @@
+projectPath: /Users/yangyuyan/Desktop/dop-cipipeline/testenvmanage-masternode-server
+server:
+  port: 8100
+spring:
+  application:
+    name: testenvmanage-masternode-server
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+    prefer-ip-address: true
+    #????????
+    lease-renewal-interval-in-seconds: 5
+    #??????
+    lease-expiration-duration-in-seconds: 10
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    registry-fetch-interval-seconds: 5 #????????
+mq:
+  RocketMQ:                                     #RocketMQ????
+    namesrvAddr: 127.0.0.1:9876    #name-server?????,????????
+    groupName:  DOP_CIPIPELINE_PRODUCER_GROUP      #??????
+    instanceName: DOP_CIPIPELINE                   #?????MQ??
+    maxMessageSize: 131072 # 1024*128           #??????
+    sendMessageTimeout: 10000                   #????????
+    queueTopic: CIPIPELINE_EXECUTE_QUEUE        #???
+    consumerGroup: EMAIL_CONSUMER_GROUP    #???

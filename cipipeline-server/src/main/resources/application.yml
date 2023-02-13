@@ -1,0 +1,76 @@
+hostUrl: https://32b0-118-74-49-63.jp.ngrok.io
+projectPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server
+pythonPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server/CIResultPredict/venv/bin/python
+localCodeBasePath: /Users/yangyuyan/Desktop/localCodeBase/
+server:
+  port: 8090
+spring:
+  application:
+    name: cipipeline-server
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/db_dop_cipipeline?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: yyy999521
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    max-active: 10
+    max-idle: 5
+    min-idle: 5
+    initial-size: 5
+    max-wait: 10000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    useGlobalDataSourceStat: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 5000
+#  cloud:
+#    client:
+#      ip-address: 127.0.0.1
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+    prefer-ip-address: true
+    #续约更新时间间隔
+    lease-renewal-interval-in-seconds: 5
+    #续约到期时间
+    lease-expiration-duration-in-seconds: 10
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    registry-fetch-interval-seconds: 5 #定时刷新本地缓存
+mq:
+  RocketMQ:                                     #RocketMQ相关配置
+    namesrvAddr: 127.0.0.1:9876    #name-server地址与端口,多个可用分号隔开
+    groupName:  DOP_CIPIPELINE_PRODUCER_GROUP      #生产者组名称
+    instanceName: DOP_CIPIPELINE                   #要发送到的MQ集群
+    maxMessageSize: 131072 # 1024*128           #最大消息长度
+    sendMessageTimeout: 10000                   #消息发送超时时间
+    queueTopic: CIPIPELINE_EXECUTE_QUEUE        #主题名

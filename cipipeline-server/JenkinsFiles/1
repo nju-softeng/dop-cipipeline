@@ -1,0 +1,35 @@
+pipeline {
+  agent any
+  stages {
+    stage('failurePredict') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/yangyyyyy/test") {
+          // Failure Predict
+          sleep 10
+        }
+      }
+    }
+    stage('build') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/yangyyyyy/test") {
+          // Build Maven
+        }
+      }
+    }
+    stage('testCaseSelect') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/yangyyyyy/test") {
+          // Test Case Select
+        }
+      }
+    }
+    stage('test') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/yangyyyyy/test") {
+          // Test
+        }
+      }
+    }
+  }
+}
+

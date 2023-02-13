@@ -1,0 +1,54 @@
+# 流水线配置信息名
+configName: configTest1
+# 代码仓库地址
+codeBaseUrl: https://github.com/yangyyyyy/test.git
+# 代码仓库onwer的access-token
+codeBaseAccessToken: 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
+# 代码仓库分支
+codeBaseBranch: tobranch
+# 流水线步骤
+ciStages:
+  # 步骤-持续集成结果预测
+  ciResultPredict:
+    # 使用模型
+    model:
+      # 持续集成结果预测模型
+      name: ciResultPredictModel
+      # 模型训练集选择策略
+      trainSetMode:
+        # 一段周期内的提交
+        periodOfTime:
+          # 开始时间
+          startTime: 2020.01.01
+          # 结束时间
+          endTime: 2022.01.01
+      # 模型更新策略
+      updateMode:
+        # 定期更新
+        regularInterval:
+          # 更新时间间隔（单位：天）
+          interval: 2
+  # 步骤-静态代码检查
+  staticCodeCheck: ~
+  # 缺陷预测
+  failurePredict:
+    model:
+      name: failurePredictModel
+      trainSetMode:
+        lastCommit:
+          commitNumber: 200
+      updateMode:
+        neverUpdate: ~
+  # 步骤-构建
+  build: ~
+  # 步骤-测试用例选择
+  testCaseSelect:
+    model:
+      name: testCaseSelectModel
+      trainSetMode:
+        allCommit: ~
+      updateMode:
+        regularInterval:
+          interval: 14
+  # 步骤-测试
+  test: ~

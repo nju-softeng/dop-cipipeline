@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cipipeline-server/cipipeline-server.iml" filepath="$PROJECT_DIR$/cipipeline-server/cipipeline-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/discovery-server/discovery-server.iml" filepath="$PROJECT_DIR$/discovery-server/discovery-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dop-cipipeline.iml" filepath="$PROJECT_DIR$/.idea/dop-cipipeline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testenvmanage-masternode-server/testenvmanage-masternode-server.iml" filepath="$PROJECT_DIR$/testenvmanage-masternode-server/testenvmanage-masternode-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testmanage-testnode-server/testmanage-testnode-server.iml" filepath="$PROJECT_DIR$/testmanage-testnode-server/testmanage-testnode-server.iml" />
+    </modules>
+  </component>
+</project>

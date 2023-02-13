@@ -1,0 +1,36 @@
+pipeline {
+  agent any
+  stages {
+    stage('failurePredict') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/jruby") {
+          // Failure Predict
+        }
+      }
+    }
+    stage('build') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/jruby") {
+          // Build Maven
+          sh 'mvn --version'
+          sh 'mvn -U -am clean package'
+        }
+      }
+    }
+    stage('testCaseSelect') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/jruby") {
+          // Test Case Select
+        }
+      }
+    }
+    stage('test') {
+      steps {
+        dir("/Users/yangyuyan/Desktop/localCodeBase/jruby") {
+          // Test
+        }
+      }
+    }
+  }
+}
+
