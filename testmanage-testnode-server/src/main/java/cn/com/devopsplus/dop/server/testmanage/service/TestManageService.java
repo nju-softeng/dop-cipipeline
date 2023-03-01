@@ -73,10 +73,12 @@ public class TestManageService {
         boolean staticCodeCheck = configInfoObject.getBoolean("staticCodeCheck");
         String jenkinsFile=testDataJsonObject.getString("jenkinsFile");
 
+        // 获取分支最新代码并合并打包pr
         List<List<String>> getCodeResult=this.getCodeForTest(codeBaseUrl, codeBaseBranch, ownerAndRepo, packageExcutes);
         JSONObject testResultForAll=new JSONObject();
         testResultForAll.put("projectId",projectId);
         JSONArray resultArray=new JSONArray();
+        // 失败无法合并pr处理
         for(String failMergePr:getCodeResult.get(1)){
             JSONObject failMergePrResult=new JSONObject();
             failMergePrResult.put("prNumber",failMergePr);
@@ -90,6 +92,7 @@ public class TestManageService {
         }
 
         List<String> successMerge=getCodeResult.get(0);
+        // 并行运行静态代码检查和流水线测试
         JSONObject paralleResult=excuteStaticCodeCheckAndTestParallelly(staticCodeCheck, ownerAndRepo, projectId, jenkinsFile);
         JSONObject staticCodeCheckResult=paralleResult.getJSONObject("staticCodeCheckResult");
         testResultForAll.put("staticCodeCheckResult",staticCodeCheckResult);
@@ -114,6 +117,7 @@ public class TestManageService {
             lastResult=new JSONObject();
             lastResult.put("prNumber",lastPrNum);
             lastResult.put("testLog",testLog);
+            // 测试失败回溯执行测试
             JSONObject currentTestLog=backtrackExecuteTest(String.valueOf(projectId),ownerAndRepo);
             if(currentTestLog.getString("pipelineBuildResult").equals("Success")){
                 lastResult.put("result","TestFail");

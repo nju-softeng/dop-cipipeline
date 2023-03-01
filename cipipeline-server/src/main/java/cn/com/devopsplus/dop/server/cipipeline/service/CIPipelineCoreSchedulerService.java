@@ -6,6 +6,9 @@ import cn.com.devopsplus.dop.server.cipipeline.dao.pipeline.CITestResultReposito
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.ConfigInfo;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.pipeline.CIPipeline;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.pipeline.CITestResult;
+import cn.com.devopsplus.dop.server.cipipeline.model.vo.CITestResultVo;
+import cn.com.devopsplus.dop.server.cipipeline.model.vo.CIpipelineVo;
+import cn.com.devopsplus.dop.server.cipipeline.model.vo.ConfigInfoVo;
 import cn.com.devopsplus.dop.server.cipipeline.mq.MessageSender;
 import cn.com.devopsplus.dop.server.cipipeline.mq.RocketMQMessageSender;
 import com.alibaba.fastjson.JSONArray;
@@ -23,6 +26,7 @@ import java.io.InputStreamReader;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,7 +96,7 @@ public class CIPipelineCoreSchedulerService {
     public void startRunCIPipeline(CIPipeline ciPipeline){
         logger.info("[startRunCIPipeline] start run ci pipeline");
         if(ciPipeline.getCiResultPredict()){
-            boolean ciResultPredictResult=ciResultPredict(ciPipeline);
+            boolean ciResultPredictResult=this.ciResultPredict(ciPipeline);
             logger.info("[startRunCIPipeline] the result of ci result predict is: "+ciResultPredictResult);
             ciPipeline.setCiResultPredictResult(ciResultPredictResult);
         }
@@ -258,6 +262,57 @@ public class CIPipelineCoreSchedulerService {
                     .staticCodeCheckLog(staticCodeCheckResult.getString("log"))
                     .build();
             ciTestResultRepository.saveAndFlush(ciTestResult);
+            ciPipeline.setRunningState(CIPipeline.RunningState.Done);
+            ciPipelineRepository.saveAndFlush(ciPipeline);
         }
+    }
+
+    /**
+     * 获取某流水线配置下的所有运行流水线
+     * @param configInfoId
+     * @return
+     */
+    public List<CIpipelineVo> getCIPipelinesForTable(long configInfoId){
+        logger.info("[getCIPipelinesForTable] Request coming: configInfoId={}",configInfoId);
+        List<CIPipeline> ciPipelines = this.ciPipelineRepository.findAllByConfigInfoId(configInfoId);
+        List<CIpipelineVo> cipipelineVos = new ArrayList<>();
+        for (int i = 0; i < ciPipelines.size(); i++) {
+            CIPipeline ciPipeline=ciPipelines.get(i);
+            CIpipelineVo cipipelineVo = CIpipelineVo.builder()
+                    .ciPipelineId(ciPipeline.getCiPipelineId())
+                    .prNumber(ciPipeline.getPrNumber())
+                    .sourceCodeBaseUrl(ciPipeline.getSourceCodeBaseUrl())
+                    .sourceCodeBaseBranch(ciPipeline.getSourceCodeBaseBranch())
+                    .build();
+            if(ciPipeline.getRunningState()== CIPipeline.RunningState.RunningForTest){
+                cipipelineVo.setRunningState("RunningForTest");
+            }
+            else if(ciPipeline.getRunningState()== CIPipeline.RunningState.StartRunning){
+                cipipelineVo.setRunningState("StartRunning");
+            }
+            else if(ciPipeline.getRunningState()== CIPipeline.RunningState.Done){
+                cipipelineVo.setRunningState("Done");
+            }
+            cipipelineVos.add(cipipelineVo);
+        }
+        return cipipelineVos;
+    }
+
+    /**
+     * 获得某条流水线的运行结果
+     * @param ciPipelineId
+     * @return
+     */
+    public CITestResultVo getTestResult(long ciPipelineId){
+        CITestResult ciTestResult=ciTestResultRepository.findAllByCiPipelineId(ciPipelineId);
+        CITestResultVo ciTestResultVo=CITestResultVo.builder()
+                .prMergeResult(ciTestResult.getPrMergeResult())
+                .prMergeLog(ciTestResult.getPrMergeLog())
+                .staticCodeCheckResult(ciTestResult.getStaticCodeCheckResult())
+                .staticCodeCheckLog(ciTestResult.getStaticCodeCheckLog())
+                .testResult(ciTestResult.getTestResult())
+                .testLog(ciTestResult.getTestLog())
+                .build();
+        return ciTestResultVo;
     }
 }

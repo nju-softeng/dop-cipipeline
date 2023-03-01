@@ -9,6 +9,7 @@ import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.CIStage;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.ConfigInfo;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.TrainSetMode;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.UpdateMode;
+import cn.com.devopsplus.dop.server.cipipeline.model.vo.ConfigInfoVo;
 import cn.com.devopsplus.dop.server.cipipeline.util.JenkinsFileUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +30,8 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -67,7 +70,7 @@ public class CIPipelineConfigInfoService {
      * @return
      */
     public void uploadConfigFile(long userId, String configFile) {
-        logger.info("[uploadConfigFile] request comming userId={}, configFilePath={}", userId,configFile);
+        logger.info("[uploadConfigFile] request comming userId={}, configFile={}", userId,configFile);
         Yaml yaml = new Yaml();
 //        File configFile = new File(configFilePath);
         Map map = null;
@@ -88,7 +91,7 @@ public class CIPipelineConfigInfoService {
         ConfigInfo configInfo=this.configInfoRepository.findAllByCodeBaseUrlAndCodeBaseBranch(codeBaseUrl,codeBaseBranch);
         if (configInfo==null) {
             String ownerAndRepo=this.getOwnerAndRepoByCodeBaseUrl(codeBaseUrl);
-//            BusinessAssert.state(this.configWebhook(ownerAndRepo,codeBaseAccessToken),"无法为该代码仓库创建pull-request的Webhook");
+            BusinessAssert.state(this.configWebhook(ownerAndRepo,codeBaseAccessToken),"无法为该代码仓库创建pull-request的Webhook");
             configInfo=ConfigInfo.builder()
                     .codeBaseUrl(codeBaseUrl)
                     .ownerAndRepo(ownerAndRepo)
@@ -509,5 +512,29 @@ public class CIPipelineConfigInfoService {
             logger.error("[trainModel] 持续集成结果预测模型训练失败: Exception");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获得用户创建的所有持续集成流水线配置信息用户前端展示
+     * @param userId
+     * @return
+     */
+    public List<ConfigInfoVo> getConfigInfoForTable(long userId) {
+        logger.info("[getConfigInfoForTable] Request coming: userId={}",userId);
+        List<ConfigInfo> configInfos = this.configInfoRepository.findAllByUserId(userId);
+        List<ConfigInfoVo> configInfoVos = new ArrayList<>();
+        for (int i = 0; i < configInfos.size(); i++) {
+            ConfigInfo configInfo=configInfos.get(i);
+            ConfigInfoVo configInfoVo = ConfigInfoVo.builder()
+                    .configInfoId(configInfo.getConfigInfoId())
+                    .configName(configInfo.getConfigName())
+                    .codeBaseUrl(configInfo.getCodeBaseUrl())
+                    .codeBaseBranch(configInfo.getCodeBaseBranch())
+                    .createTime(configInfo.getCreateTime())
+                    .updateTime(configInfo.getUpdateTime())
+                    .build();
+            configInfoVos.add(configInfoVo);
+        }
+        return configInfoVos;
     }
 }
