@@ -334,7 +334,7 @@ public class TestManageService {
     }
 
     /**
-     * 根据流水线的名字的到运行日志
+     * 根据流水线的名字得到运行日志
      * @param name
      * @return
      */

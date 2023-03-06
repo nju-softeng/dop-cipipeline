@@ -3,7 +3,7 @@ configName: configTest
 # 代码仓库地址
 codeBaseUrl: https://github.com/yangyyyyy/test.git
 # 代码仓库onwer的access-token
-codeBaseAccessToken: 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
+codeBaseAccessToken: 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
 # 代码仓库分支
 codeBaseBranch: tobranch
 # 流水线步骤

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/cipipeline-server/cipipeline-server.iml" filepath="$PROJECT_DIR$/cipipeline-server/cipipeline-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/discovery-server/discovery-server.iml" filepath="$PROJECT_DIR$/discovery-server/discovery-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/dop-cipipeline.iml" filepath="$PROJECT_DIR$/.idea/dop-cipipeline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway-server/gateway-server.iml" filepath="$PROJECT_DIR$/gateway-server/gateway-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/testenvmanage-masternode-server/testenvmanage-masternode-server.iml" filepath="$PROJECT_DIR$/testenvmanage-masternode-server/testenvmanage-masternode-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/testmanage-testnode-server/testmanage-testnode-server.iml" filepath="$PROJECT_DIR$/testmanage-testnode-server/testmanage-testnode-server.iml" />
     </modules>

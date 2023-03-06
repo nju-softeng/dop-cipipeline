@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="testmanage-testnode-server" />
+        <module name="gateway-server" />
         <module name="discovery-server" />
         <module name="cipipeline-server" />
         <module name="testenvmanage-masternode-server" />
@@ -16,6 +17,7 @@
     <bytecodeTargetLevel target="8">
       <module name="cipipeline-server" target="1.8" />
       <module name="discovery-server" target="1.8" />
+      <module name="gateway-server" target="1.8" />
       <module name="testenvmanage-masternode-server" target="1.8" />
       <module name="testmanage-testnode-server" target="1.8" />
       <module name="testmanage-testnode-server1" target="8" />
@@ -25,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cipipeline-server" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
+      <module name="gateway-server" options="-parameters" />
       <module name="testenvmanage-masternode-server" options="-parameters" />
       <module name="testmanage-testnode-server" options="-parameters" />
       <module name="testmanage-testnode-server1" options="-parameters" />
