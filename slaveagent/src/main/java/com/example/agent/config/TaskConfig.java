@@ -8,7 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @Configuration
 public class TaskConfig {
 
-
+    //定时任务线程池bean
     @Bean(name="myThreadPoolTaskScheduler")
     public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
         ThreadPoolTaskScheduler executor=new ThreadPoolTaskScheduler();

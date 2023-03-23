@@ -10,10 +10,10 @@ public class AlivekeeperController {
 
     @Autowired
     AliveKeeperService alivekeeperService;
-
+    //开启传输心跳包
     @GetMapping("/starttask")
     public void startSchedule(){
-        System.out.println("start");
+//        System.out.println("start");
         alivekeeperService.startTask();
     }
 

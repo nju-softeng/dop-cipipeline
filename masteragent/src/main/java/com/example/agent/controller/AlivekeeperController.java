@@ -2,6 +2,8 @@ package com.example.agent.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.agent.bean.AgentRedis;
+import com.example.agent.po.AgentattributePO;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.service.AliveKeeperService;
 import com.example.agent.util.RedisUtil;
@@ -17,6 +19,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @RestController
 public class AlivekeeperController {
+    @Autowired
+    AgentRedis agentRedis;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -35,12 +39,18 @@ public class AlivekeeperController {
     public void refreshAgent(@RequestBody JSONObject jsonObject) {
         int agentId= (int) jsonObject.get("agentid");
         String refreshtime= (String) jsonObject.get("refreshtime");
-        double memory= (double) jsonObject.get("agentmemory");
+        int memory= (int) jsonObject.get("agentmemory");
         String ip= (String) jsonObject.get("agentip");
-        redisUtil.set(agentId+"_refreshtime",refreshtime);
-        redisUtil.set(agentId+"_memory",memory);
-        redisUtil.set(agentId+"_ip",ip);
-        System.out.println(jsonObject);
+//        redisUtil.set(agentId+"_refreshtime",refreshtime);
+//        redisUtil.set(agentId+"_memory",memory);
+//        redisUtil.set(agentId+"_ip",ip);
+//        System.out.println(jsonObject);
+        AgentattributePO agentattributePO=agentRedis.getAgentById(agentId);
+        agentattributePO.setAgent_online_time(refreshtime);
+        agentattributePO.setAgent_memory(memory);
+        agentattributePO.setAgent_ip(ip);
+        agentRedis.setAgentById(agentId,agentattributePO);
+
     }
 
 

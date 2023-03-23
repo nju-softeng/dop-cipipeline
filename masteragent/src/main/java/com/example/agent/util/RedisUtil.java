@@ -1,13 +1,15 @@
 package com.example.agent.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class RedisUtil{
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     /**
@@ -38,4 +40,14 @@ public class RedisUtil{
     public void delete(String key) {
         redisTemplate.delete(key);
     }
+
+
+    public void appendInteger(String key, Integer i){
+        redisTemplate.opsForList().rightPushAll(key,i);
+    }
+
+    public List<Object> getList(String key){
+        return redisTemplate.opsForList().range(key,0,-1);
+    }
+
 }

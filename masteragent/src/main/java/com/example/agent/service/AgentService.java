@@ -1,5 +1,6 @@
 package com.example.agent.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
@@ -24,12 +25,17 @@ public class AgentService {
     @Autowired
     ServerDetailService serverDetailService;
 
+    @Autowired
+    FileService fileService;
+
 
 
     public List<Integer> getslaveidsBymasterId(int masterid){
 
         String sql="select * from agentmaster where agent_master = ?";
+//        String sql="select * from agentmaster";
         List<AgentmasterPO> agentmasterPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentmasterPO.class),masterid);
+//        List<AgentmasterPO> agentmasterPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentmasterPO.class));
         List<Integer> slaveids = new ArrayList<>();
         for(AgentmasterPO po:agentmasterPOS){
             slaveids.add(po.getAgent_id());
@@ -56,15 +62,33 @@ public class AgentService {
         return agentattributePO;
     }
 
+    public List<AgentattributePO> getAllAgentAttributes(){
+        String sql="select * from agentattribute";
+        List<AgentattributePO> agentattributePOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentattributePO.class));
+        return agentattributePOS;
+    }
 
 
 
 
 
-    public ResultMsg createMasterAgent(String name){
-        String insertsql="insert into agentattribute(agent_name,agent_os,agent_memory,agent_cpu,agent_state,agent_mac,agent_type) values (?,null,null,null,null,null,null)";
-        int affectrow=jdbcTemplate.update(insertsql,name);
-        return null;
+    public void createAgent(String name,String urlStr){
+        String insertsql="insert into agentattribute(agent_name,agent_os,agent_memory,agent_cpu,agent_state,agent_mac,agent_type,agent_port) values (?,null,0,null,0,null,0,0)";
+        int affectRow=jdbcTemplate.update(insertsql,name);
+        if(affectRow>0){
+            String agentIdSql="select max(agent_id) from agentattribute";
+            int agentId=jdbcTemplate.queryForObject(agentIdSql,Integer.class);
+            if(agentId>0) {
+                JSONObject jsonObject=new JSONObject();
+                jsonObject.put("agentId",agentId);
+                String urlAndIpStr="http://"+urlStr+"/registerAgent";
+                System.out.println(urlAndIpStr);
+                //调用从节点的连接接口
+                fileService.doPost(urlAndIpStr,jsonObject);
+            }
+        }
+
+
     }
 
     public ResultMsg changeAgentState(int agentid,int state){

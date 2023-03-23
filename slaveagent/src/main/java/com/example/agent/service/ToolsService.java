@@ -2,7 +2,9 @@ package com.example.agent.service;
 
 
 import com.example.agent.pojo.ResultMsg;
+import com.example.agent.util.MultiThreadDownloader;
 import io.micrometer.common.util.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -11,12 +13,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @Service
 public class ToolsService {
+
+    @Value("${toolsystem.download.threadNum}")
+    private  int MAX_THREADS;
 
     public List<String> getUrls(){
         return null;
@@ -58,6 +63,43 @@ public class ToolsService {
 //            IOUtils.closeQuietly(fos, null);
         }
     }
+
+
+
+    public  void downloadNetResourceByMultiThread(String urlStr, String fileName, String dir) {
+        ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
+        URL url = null;
+        try {
+            url = new URL(urlStr);
+            File file = new File(dir+File.separator+fileName);
+
+            long fileSize = url.openConnection().getContentLength();
+            long blockSize = (long) Math.ceil(fileSize / MAX_THREADS);
+
+            for (int i = 0; i < MAX_THREADS; i++) {
+                long startByte = i * blockSize;
+                long endByte = ((i + 1) * blockSize) - 1;
+                if (i == MAX_THREADS - 1) {
+                    endByte = fileSize - 1;
+                }
+
+                MultiThreadDownloader task = new MultiThreadDownloader(url, file, startByte, endByte);
+                executor.execute(task);
+            }
+
+            executor.shutdown();
+            while (!executor.isTerminated()) {
+                // Wait for all tasks to complete
+            }
+
+            System.out.println("File downloaded successfully");
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
     public ResultMsg fixWar(String dirPath,String fileName){

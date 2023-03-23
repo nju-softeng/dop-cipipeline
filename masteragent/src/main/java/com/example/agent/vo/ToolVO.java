@@ -20,29 +20,12 @@ public class ToolVO {
         this.toolname = toolname;
     }
 
-    public String getTooldir() {
-        return tooldir;
-    }
-
-    public void setTooldir(String tooldir) {
-        this.tooldir = tooldir;
-    }
-
-    public String getFixcmd() {
-        return fixcmd;
-    }
-
-    public void setFixcmd(String fixcmd) {
-        this.fixcmd = fixcmd;
-    }
-
     String toolurl;
 
     String toolname;
 
-    String tooldir;
-
-    String fixcmd;
-
-
+    public ToolVO(String toolurl, String toolname) {
+        this.toolurl = toolurl;
+        this.toolname = toolname;
+    }
 }

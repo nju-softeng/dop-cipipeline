@@ -8,7 +8,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +58,7 @@ public class FileService {
         }
         return res;
     }
+
 
 
 }

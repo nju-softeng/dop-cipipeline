@@ -20,7 +20,7 @@ public class ServerDetailService {
     public static String getOS(){
         return osmxb.getName();
     }
-    public static double getMemory(){
+    public static int getMemory(){
 
         double totalvirtualMemory = osmxb.getTotalMemorySize();
         double freePhysicalMemorySize = osmxb.getFreeMemorySize();

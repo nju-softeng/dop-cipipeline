@@ -21,7 +21,7 @@ class AgentServiceTest {
     }
     @Test
     void create(){
-        agentService.createMasterAgent("ggbo2");
+        agentService.createAgent("windows32","127.0.0.1:8081");
     }
 
     @Test
