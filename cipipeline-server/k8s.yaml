@@ -42,10 +42,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: application-server
+  name: cipipeline-server
   namespace: dop
   labels:
-    app: application-server
+    app: cipipeline-server
 spec:
   ports:
     - port: 14100
