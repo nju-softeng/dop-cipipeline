@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cipipeline-server
+  namespace: dop
+spec:
+  selector:
+    matchLabels:
+      app: cipipeline-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cipipeline-server
+    spec:
+      containers:
+        - name: cipipeline-server
+          imagePullPolicy: Always
+          image: 172.29.7.157:85/dop/cipipeline-server:<BUILD_TAG>
+          resources:
+            requests:
+              memory: 384Mi
+              cpu: 250m
+            limits:
+              memory: 384Mi
+              cpu: 500m
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+            - name: host-timezone
+              mountPath: /etc/timezone
+          ports:
+            - containerPort: 13800
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+        - name: host-timezone
+          hostPath:
+            path: /etc/timezone
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: application-server
+  namespace: dop
+  labels:
+    app: application-server
+spec:
+  ports:
+    - port: 14100
+      protocol: TCP
+      targetPort: 14100
+  selector:
+    app: cipipeline-server

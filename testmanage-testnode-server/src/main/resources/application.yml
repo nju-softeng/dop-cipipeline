@@ -1,6 +1,22 @@
 localCodeBasePath: /Users/yangyuyan/Desktop/localCodeBase/
 server:
   port: 8110
+spring:
+  application:
+    name: testmanage-testnode-server
+
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    registry-fetch-interval-seconds: 5
+
 utils:
   jenkins:
     uri: http://127.0.0.1:8080

@@ -280,7 +280,7 @@ public class TestManageService {
     public JSONObject startTest(String name,String jenkinsFile){
         logger.info("[startTest] start run test pipeline...");
         try {
-            if(String.valueOf(jenkins.getJob(name))==null){
+            if(jenkins.getJob(name)==null){
                 jenkins.createJob(name, new JobConfig(jenkinsFile).getXml(),true);
             }
             else{

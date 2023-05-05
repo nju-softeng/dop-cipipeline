@@ -1,17 +1,17 @@
-hostUrl: https://0bd5-180-110-198-106.ap.ngrok.io/cipipeline-server
+hostUrl: http://open.devopsplus.com.cn:7080/cipipeline-server
 projectPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server
 pythonPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server/CIResultPredict/venv/bin/python
 localCodeBasePath: /Users/yangyuyan/Desktop/localCodeBase/
 server:
-  port: 8090
+  port: 14100
 spring:
   application:
     name: cipipeline-server
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/db_dop_cipipeline?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
-    username: root
-    password: yyy999521
+    url: jdbc:mysql://172.29.7.157:3306/db_dop_cipipeline?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: dop
+    password: Dop_mysql_12345
     driver-class-name: com.mysql.cj.jdbc.Driver
     max-active: 10
     max-idle: 5
@@ -41,7 +41,7 @@ spring:
     show-sql: true
   redis:
     database: 0
-    host: 127.0.0.1
+    host: 172.29.7.157
     port: 6379
     lettuce:
       pool:
@@ -64,11 +64,11 @@ eureka:
     lease-expiration-duration-in-seconds: 10
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
     registry-fetch-interval-seconds: 5 #定时刷新本地缓存
 mq:
   RocketMQ:                                     #RocketMQ相关配置
-    namesrvAddr: 127.0.0.1:9876    #name-server地址与端口,多个可用分号隔开
+    namesrvAddr: 172.29.7.157:9876    #name-server地址与端口,多个可用分号隔开
     groupName:  DOP_CIPIPELINE_PRODUCER_GROUP      #生产者组名称
     instanceName: DOP_CIPIPELINE                   #要发送到的MQ集群
     maxMessageSize: 131072 # 1024*128           #最大消息长度
