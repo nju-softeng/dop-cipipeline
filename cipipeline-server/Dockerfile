@@ -6,6 +6,10 @@ ADD **/*.jar app.jar
 
 RUN sh -c 'touch /app.jar'
 
+RUN sh -c 'mkdir /JenkinsFiles'
+
+RUN sh -c 'chmod 777 /JenkinsFiles'
+
 ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
 
 CMD exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=production -jar /app.jar

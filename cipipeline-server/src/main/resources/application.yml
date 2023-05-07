@@ -1,7 +1,6 @@
 hostUrl: http://open.devopsplus.com.cn:7080/cipipeline-server
 projectPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server
-pythonPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server/CIResultPredict/venv/bin/python
-localCodeBasePath: /Users/yangyuyan/Desktop/localCodeBase/
+localCodeBasePath: /localCodeBase/
 server:
   port: 14100
 spring:

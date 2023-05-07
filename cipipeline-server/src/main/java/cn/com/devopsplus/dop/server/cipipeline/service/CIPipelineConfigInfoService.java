@@ -113,7 +113,7 @@ public class CIPipelineConfigInfoService {
         this.generateJenkinsFile(configInfo);
         this.configInfoRepository.saveAndFlush(configInfo);
 
-        this.trainModel(configInfo);
+//        this.trainModel(configInfo);
     }
 
     /**
@@ -433,7 +433,7 @@ public class CIPipelineConfigInfoService {
         logger.info("[generateJenkinsFile] generate JenkinsFile: configInfo");
         String jenkinsFile= this.jenkinsFileUtil.generate(configInfo);
         try {
-            String jenkinsFilePath=this.environment.getProperty("projectPath")+"/JenkinsFiles/"+configInfo.getConfigInfoId();
+            String jenkinsFilePath="/JenkinsFiles/"+configInfo.getConfigInfoId();
             File file = new File(jenkinsFilePath);
             PrintStream ps = new PrintStream(new FileOutputStream(file));
             ps.println(jenkinsFile);
