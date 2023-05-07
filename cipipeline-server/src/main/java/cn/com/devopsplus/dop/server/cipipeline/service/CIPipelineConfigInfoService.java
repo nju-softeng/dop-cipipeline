@@ -430,7 +430,7 @@ public class CIPipelineConfigInfoService {
      * @param configInfo
      */
     public ConfigInfo generateJenkinsFile(ConfigInfo configInfo){
-        logger.info("[generateJenkinsFile] generate JenkinsFile: configInfo={}",configInfo.toString());
+        logger.info("[generateJenkinsFile] generate JenkinsFile: configInfo={}",configInfo.getConfigInfoId());
         String jenkinsFile= this.jenkinsFileUtil.generate(configInfo);
         try {
             String jenkinsFilePath="/JenkinsFiles/"+configInfo.getConfigInfoId();

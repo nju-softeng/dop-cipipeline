@@ -127,18 +127,18 @@ public class CIPipelineCoreSchedulerService {
             System.out.println(proc.waitFor());
         }
         catch (IOException e) {
-            logger.error("[trainModel] 持续集成结果预测执行失败: IOException");
+            logger.error("[ciResultPredict] 持续集成结果预测执行失败: IOException");
             e.printStackTrace();
         }
         catch (InterruptedException e) {
-            logger.error("[trainModel] 持续集成结果预测执行失败: InterruptedException");
+            logger.error("[ciResultPredict] 持续集成结果预测执行失败: InterruptedException");
             e.printStackTrace();
         }
         catch (Exception e){
-            logger.error("[trainModel] 持续集成结果预测执行失败: Exception");
+            logger.error("[ciResultPredict] 持续集成结果预测执行失败: Exception");
             e.printStackTrace();
         }
-        return line.equals("1");
+        return line!=null&&line.equals("1");
     }
 
     /**
