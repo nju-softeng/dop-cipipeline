@@ -40,7 +40,7 @@ public class AgentController {
         //开启下载任务
 //        toolsService.downloadNetResource("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","F:\\aa_agent\\slaveagent\\src\\main\\resources\\tools");
         //使用多线程下载任务提高下载速度
-        toolsService.downloadNetResourceByMultiThread("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","F:\\aa_agent\\slaveagent\\src\\main\\resources\\tools");
+        toolsService.downloadNetResourceByMultiThread("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","/home/cipipeline/agent/tools");
 
         return null;
     }

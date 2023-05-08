@@ -48,7 +48,7 @@ public class AliveKeeperService {
 
     public void refreshAgent(){
         AgentattributePO  agentattributePO=agentService.getthisAgent();
-        String url="http://127.0.0.1:8080/refreshagent";
+        String url="http://172.31.59.131:8080/refreshagent";
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("agentid",agentattributePO.getAgent_id());
         jsonObject.put("agentmemory",serverDetailService.getMemory());

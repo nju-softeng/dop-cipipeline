@@ -5,10 +5,8 @@ import com.sun.management.OperatingSystemMXBean;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.ManagementFactory;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.util.Enumeration;
 
 @Service
 public class ServerDetailService {
@@ -30,15 +28,30 @@ public class ServerDetailService {
 
         return percentMemoryLoad;
     }
-    public static String getIP(){
-        InetAddress ia = null;
+    public String getIP(){
+        Enumeration<NetworkInterface> interfaces = null;
         try {
-            ia = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
+            interfaces = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
             throw new RuntimeException(e);
         }
-        String ip=ia.toString().split("/")[1];
-        return ip;
+        while (interfaces.hasMoreElements()) {
+            NetworkInterface ni = interfaces.nextElement();
+            try {
+                if (!ni.isLoopback() && ni.isUp()) {
+                    Enumeration<InetAddress> addresses = ni.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        InetAddress addr = addresses.nextElement();
+                        if (addr instanceof Inet4Address) {
+                            return addr.getHostAddress();
+                        }
+                    }
+                }
+            } catch (SocketException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return "";
     }
 
     public static String getCPU(){
@@ -46,42 +59,31 @@ public class ServerDetailService {
         return osmxb.getArch();
     }
 
-    public static String getLocalMac() {
-        InetAddress ia= null;
+    public  String getLocalMac()  {
+        Enumeration<NetworkInterface> interfaces = null;
         try {
-            ia = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-        //获取网卡，获取地址
-        byte[] mac = new byte[0];
-        try {
-            mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
+            interfaces = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println("mac数组长度："+mac.length);
-        StringBuffer sb = new StringBuffer("");
-        for(int i=0; i<mac.length; i++) {
-            if(i!=0) {
-                sb.append("-");
-            }
-            //字节转换为整数
-            int temp = mac[i]&0xff;
-            String str = Integer.toHexString(temp);
-            //System.out.println("每8位:"+str);
-            if(str.length()==1) {
-                sb.append("0"+str);
-            }else {
-                sb.append(str);
+        while (interfaces.hasMoreElements()) {
+            NetworkInterface ni = interfaces.nextElement();
+            try {
+                if (!ni.isLoopback() && ni.isUp()) {
+                    byte[] mac = ni.getHardwareAddress();
+                    if (mac != null) {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < mac.length; i++) {
+                            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+                        }
+                        return sb.toString();
+                    }
+                }
+            } catch (SocketException e) {
+                throw new RuntimeException(e);
             }
         }
-
-        String myMac=sb.toString().toUpperCase();
-        //System.out.println("本机MAC地址:"+myMac);
-
-        return myMac;
-
+        return "";
     }
 
 

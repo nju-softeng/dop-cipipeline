@@ -37,19 +37,14 @@ public class AgentRedis {
 
     @PostConstruct
     public void  init(){
-//        jdbcTemplate=SpringContextUtils.getApplicationContext().getBean(JdbcTemplate.class);
-//        agentService= SpringContextUtils.getApplicationContext().getBean(AgentService.class);
-//        redisUtil=SpringContextUtils.getApplicationContext().getBean(RedisUtil.class);
         List<AgentattributePO> agentattributePOList=agentService.getAllAgentAttributes();
         List<Integer> agentIds=new ArrayList<>();
         redisTemplate.delete("agentIds");
         for(AgentattributePO agentattributePO:agentattributePOList){
             agentIds.add(agentattributePO.getAgent_id());
-//            redisUtil.set(String.valueOf(agentattributePO.getAgent_id()),agentattributePO);
             redisTemplate.opsForValue().set(String.valueOf(agentattributePO.getAgent_id()),agentattributePO);
             redisUtil.appendInteger("agentIds",agentattributePO.getAgent_id());
         }
-
     }
 
     public void setAgentById(int agentId,AgentattributePO agentattributePO){

@@ -41,10 +41,6 @@ public class AlivekeeperController {
         String refreshtime= (String) jsonObject.get("refreshtime");
         int memory= (int) jsonObject.get("agentmemory");
         String ip= (String) jsonObject.get("agentip");
-//        redisUtil.set(agentId+"_refreshtime",refreshtime);
-//        redisUtil.set(agentId+"_memory",memory);
-//        redisUtil.set(agentId+"_ip",ip);
-//        System.out.println(jsonObject);
         AgentattributePO agentattributePO=agentRedis.getAgentById(agentId);
         agentattributePO.setAgent_online_time(refreshtime);
         agentattributePO.setAgent_memory(memory);
