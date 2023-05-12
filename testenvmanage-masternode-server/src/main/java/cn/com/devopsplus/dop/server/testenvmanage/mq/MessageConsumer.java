@@ -73,12 +73,14 @@ public class MessageConsumer implements MessageListenerOrderly {
      */
     @Override
     public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
+        while(this.dataTransmitService.getFreeNodeNumber()==0){}
         int index = 0;
         try {
             for (; index < msgs.size(); index++) {
                 MessageExt msg = msgs.get(index);
                 String messageBody = new String(msg.getBody(), RemotingHelper.DEFAULT_CHARSET);
                 logger.info("MQ：MessageConsumer接收新信息: msgId={} topic={} tags={} keys={} messageBody={}", msg.getMsgId(), msg.getTopic(), msg.getTags(), msg.getKeys(), messageBody);
+                this.dataTransmitService.subFreeNodeNumber();
                 JSONObject transmitDataJsonObject=this.dataTransmitService.generateTransmitData(msg.getKeys(),messageBody);
                 System.out.println(transmitDataJsonObject);
             }

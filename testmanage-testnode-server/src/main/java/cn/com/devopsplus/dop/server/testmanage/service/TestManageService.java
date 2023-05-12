@@ -88,6 +88,7 @@ public class TestManageService {
         }
         if(getCodeResult.get(0).size()==0){
             testResultForAll.put("resultArray",resultArray);
+            logger.info("[handleTestRequest] merge list is empty");
             return testResultForAll;
         }
 
@@ -307,6 +308,10 @@ public class TestManageService {
             jenkins.getJob(name).build(true);
         }catch (Exception e) {
             logger.error("[startTest] 无法构建流水线！Exception",e);
+            JSONObject testResult=new JSONObject();
+            testResult.put("pipelineBuildResult","Fail");
+            testResult.put("testLog","Fail to run the test pipeline!");
+            return testResult;
         }
         logger.info("nextBuildNum ={}",nextBuildNum);
         waitForFinish(name,nextBuildNum);

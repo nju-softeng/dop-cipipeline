@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 节点间数据传输业务实现
@@ -21,6 +22,13 @@ public class DataTransmitService {
     @Autowired
     private CIPipelineFeign ciPipelineFeign;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    public DataTransmitService(){
+        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",0);
+    }
+
     public JSONObject generateTransmitData(String keys,String messageBody){
         logger.info("[generateTransmitData] request coming keys={}, messageBody={}",keys,messageBody);
         JSONObject messageBodyJsonObject=JSONObject.parseObject(messageBody);
@@ -29,5 +37,19 @@ public class DataTransmitService {
         transmitDataJsonObject.put("configInfo",messageBodyJsonObject);
         transmitDataJsonObject.put("jenkinsFile",this.ciPipelineFeign.getJenkinsFile(configInfoId));
         return transmitDataJsonObject;
+    }
+
+    public int getFreeNodeNumber(){
+        return (int) this.redisTemplate.opsForValue().get("FREE_NODE_NUMBER");
+    }
+
+    public void addFreeNodeNumber(){
+        int freeNodeNumber=this.getFreeNodeNumber();
+        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",freeNodeNumber+1);
+    }
+
+    public void subFreeNodeNumber(){
+        int freeNodeNumber=this.getFreeNodeNumber();
+        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",freeNodeNumber-1);
     }
 }

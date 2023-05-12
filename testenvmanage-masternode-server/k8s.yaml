@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testenvmanage-masternode-server
+  namespace: dop
+spec:
+  selector:
+    matchLabels:
+      app: testenvmanage-masternode-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: testenvmanage-masternode-server
+    spec:
+      containers:
+        - name: testenvmanage-masternode-server
+          imagePullPolicy: Always
+          image: 172.29.7.157:85/dop/testenvmanage-masternode-server:<BUILD_TAG>
+          resources:
+            requests:
+              memory: 384Mi
+              cpu: 250m
+            limits:
+              memory: 384Mi
+              cpu: 500m
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+            - name: host-timezone
+              mountPath: /etc/timezone
+          ports:
+            - containerPort: 13800
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+        - name: host-timezone
+          hostPath:
+            path: /etc/timezone
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testenvmanage-masternode-server
+  namespace: dop
+  labels:
+    app: testenvmanage-masternode-server
+spec:
+  ports:
+    - port: 14100
+      protocol: TCP
+      targetPort: 14100
+  selector:
+    app: testenvmanage-masternode-server

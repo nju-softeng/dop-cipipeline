@@ -1,6 +1,7 @@
 package cn.com.devopsplus.dop.server.testenvmanage.controller;
 
 import cn.com.devopsplus.dop.server.testenvmanage.feign.CIPipelineFeign;
+import cn.com.devopsplus.dop.server.testenvmanage.service.DataTransmitService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,16 @@ public class TestenvmanageMasternodeController {
     @Autowired
     private CIPipelineFeign ciPipelineFeign;
 
+    @Autowired
+    private DataTransmitService dataTransmitService;
+
     @PostMapping("/testReturnTestResult")
     public void testReturnTestResult(@RequestBody String testData){
         ciPipelineFeign.saveTestResult(testData);
+    }
+
+    @PostMapping("/testFreeNode")
+    public void testFreeNode(){
+       dataTransmitService.addFreeNodeNumber();
     }
 }

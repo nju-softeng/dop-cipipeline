@@ -1,6 +1,6 @@
-localCodeBasePath: /Users/yangyuyan/Desktop/localCodeBase/
+localCodeBasePath: /localCodeBase/
 server:
-  port: 8110
+  port: 6810
 spring:
   application:
     name: testmanage-testnode-server

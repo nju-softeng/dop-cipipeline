@@ -21,7 +21,7 @@ public class TestManageController {
     TestManageService testManageService;
 
     @PostMapping("/handleTestRequest")
-    public void handleTestRequest(@RequestBody String testData){
+    public JSONObject handleTestRequest(@RequestBody String testData){
         JSONObject testDataJsonObject=null;
         try{
             testDataJsonObject=JSONObject.parseObject(testData);
@@ -29,7 +29,9 @@ public class TestManageController {
         catch (Exception exception){
             exception.printStackTrace();
         }
-        testManageService.handleTestRequest(testDataJsonObject);
+        JSONObject testResultForAll=testManageService.handleTestRequest(testDataJsonObject);
+        logger.info("[handleTestRequest] test result: {}",testResultForAll);
+        return testResultForAll;
     }
 
     @PostMapping("/evaluation1")
