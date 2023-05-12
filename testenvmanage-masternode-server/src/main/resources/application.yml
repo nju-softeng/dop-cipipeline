@@ -4,6 +4,17 @@ server:
 spring:
   application:
     name: testenvmanage-masternode-server
+  redis:
+    database: 0
+    host: 172.29.7.157
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 5000
 eureka:
   instance:
     appname: ${spring.application.name}
