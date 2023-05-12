@@ -23,7 +23,7 @@ public class DataTransmitService {
     private CIPipelineFeign ciPipelineFeign;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String,String> redisTemplate;
 
     public JSONObject generateTransmitData(String keys,String messageBody){
         logger.info("[generateTransmitData] request coming keys={}, messageBody={}",keys,messageBody);
