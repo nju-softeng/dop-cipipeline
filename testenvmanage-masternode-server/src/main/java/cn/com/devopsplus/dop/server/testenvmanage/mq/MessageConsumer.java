@@ -46,6 +46,7 @@ public class MessageConsumer implements MessageListenerOrderly {
      */
     @PostConstruct
     public void start() {
+        this.dataTransmitService.setFreeNodeNumber(0);
         try {
             logger.info("MQ：启动MessageConsumer, namesrvAddr: [{}],  topic: [{}], consumerGroup: [{}]",
                     namesrvAddr, topic, consumerGroup);
@@ -65,7 +66,6 @@ public class MessageConsumer implements MessageListenerOrderly {
             logger.error("MQ：启动MessageConsumer失败：{}-{}", e.getResponseCode(), e.getErrorMessage());
             throw new RuntimeException(e.getMessage(), e);
         }
-
     }
 
     /**

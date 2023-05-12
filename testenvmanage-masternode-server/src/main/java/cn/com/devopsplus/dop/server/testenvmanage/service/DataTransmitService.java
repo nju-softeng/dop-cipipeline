@@ -25,10 +25,6 @@ public class DataTransmitService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public DataTransmitService(){
-        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",0);
-    }
-
     public JSONObject generateTransmitData(String keys,String messageBody){
         logger.info("[generateTransmitData] request coming keys={}, messageBody={}",keys,messageBody);
         JSONObject messageBodyJsonObject=JSONObject.parseObject(messageBody);
@@ -45,11 +41,15 @@ public class DataTransmitService {
 
     public void addFreeNodeNumber(){
         int freeNodeNumber=this.getFreeNodeNumber();
-        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",freeNodeNumber+1);
+        this.setFreeNodeNumber(freeNodeNumber+1);
     }
 
     public void subFreeNodeNumber(){
         int freeNodeNumber=this.getFreeNodeNumber();
-        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",freeNodeNumber-1);
+        this.setFreeNodeNumber(freeNodeNumber-1);
+    }
+
+    public void setFreeNodeNumber(int number){
+        this.redisTemplate.opsForValue().set("FREE_NODE_NUMBER",number);
     }
 }
