@@ -6,6 +6,8 @@ import com.example.agent.pojo.ResultMsg;
 import com.example.agent.pojo.SlaveMsg;
 import com.example.agent.service.AgentService;
 import com.example.agent.service.ToolsService;
+import com.example.agent.vo.AgentattributeVO;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,20 +32,25 @@ public class AgentController {
 
     //注册从节点
     @PostMapping("/registerAgent")
-    public ResultMsg registerAgent(@RequestBody String agentIdString){
+    public AgentattributeVO registerAgent(@RequestBody String agentIdString, HttpServletRequest request){
         JSONObject agentIdObject=JSONObject.parseObject(agentIdString);
         int agentId= (int) agentIdObject.get("agentId");
+        String agentName= (String) agentIdObject.get("agentName");
+        String slaveIp =(String) agentIdObject.get("slaveIp");
+        int masterPort=(int) agentIdObject.get("agentport");
 //        //注册节点
-        agentService.registAgent(agentId);
+        String masterIp = request.getRemoteAddr();
+        AgentattributeVO agentattributeVO= agentService.registAgent(agentId,agentName,masterIp,masterPort,slaveIp);
         //开启心跳
-        alivekeeperController.startSchedule();
+//        alivekeeperController.startSchedule();
         //开启下载任务
 //        toolsService.downloadNetResource("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","F:\\aa_agent\\slaveagent\\src\\main\\resources\\tools");
         //使用多线程下载任务提高下载速度
-        toolsService.downloadNetResourceByMultiThread("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","/home/cipipeline/agent/tools");
-
+//        toolsService.downloadNetResourceByMultiThread("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","/home/cipipeline/agent/tools");
+        if(agentattributeVO!=null) return agentattributeVO;
         return null;
     }
+
 
 //    @GetMapping("/registerAgent")
 //    public ResultMsg registerAgent(int agentid){

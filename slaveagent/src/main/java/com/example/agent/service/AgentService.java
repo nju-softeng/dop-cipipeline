@@ -3,6 +3,7 @@ package com.example.agent.service;
 import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
+import com.example.agent.vo.AgentattributeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,16 +55,20 @@ public class AgentService {
         return slaveids;
     }
 
-    public ResultMsg registAgent(int agentid){
-        String server_os=serverDetailService.getOS();
-        double server_memory=serverDetailService.getMemory();
-        String server_mac=serverDetailService.getLocalMac();
-        String server_cpu=serverDetailService.getCPU();
-        String server_ip=serverDetailService.getIP();
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date=sdf.format(System.currentTimeMillis());
-        String sql="update agentattribute set agent_os=?,agent_memory=?,agent_cpu=?,agent_mac=?,agent_ip=?,agent_online_time=? where agent_id=?";
-        int res=jdbcTemplate.update(sql,server_os,server_memory,server_cpu,server_mac,server_ip,date,agentid);
+    public AgentattributeVO registAgent(int agentid, String agentName, String masterIp, int masterPort, String slaveIp){
+        String insertSql = "INSERT INTO slave_agent (agent_id,slave_ip, master_ip, master_port) VALUES (?,?, ?, ?)";
+        int affectrow=jdbcTemplate.update(insertSql,agentid,slaveIp,masterIp,masterPort);
+        if(affectrow>0){
+            String server_os=serverDetailService.getOS();
+            int server_memory=serverDetailService.getMemory();
+            String server_mac=serverDetailService.getLocalMac();
+            String server_cpu=serverDetailService.getCPU();
+            String server_ip=serverDetailService.getIP();
+            SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date=sdf.format(System.currentTimeMillis());
+            AgentattributeVO agentattributeVO=new AgentattributeVO(agentid,agentName,server_os,server_memory,server_cpu,0,server_mac,0,slaveIp,8080,date);
+            return agentattributeVO;
+        }
         return null;
     }
 
