@@ -85,6 +85,12 @@ public class AgentService {
         return agentattributePO;
     }
 
+    public int getThisAgentId(){
+        String latestIdSql="select max(agent_id) from agentattribute";
+        int latestId=jdbcTemplate.queryForObject(latestIdSql,Integer.class);
+        return latestId;
+    }
+
 
     public List<AgentattributePO> getslavesBymasterid(int masterid){
         return null;
