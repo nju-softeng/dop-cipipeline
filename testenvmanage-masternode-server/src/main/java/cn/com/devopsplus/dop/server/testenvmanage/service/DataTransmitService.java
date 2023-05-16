@@ -36,7 +36,7 @@ public class DataTransmitService {
     }
 
     public int getFreeNodeNumber(){
-        return Integer.parseInt((String) this.redisTemplate.opsForValue().get("FREE_NODE_NUMBER"));
+        return Integer.parseInt(this.redisTemplate.opsForValue().get("FREE_NODE_NUMBER"));
     }
 
     public void addFreeNodeNumber(){
