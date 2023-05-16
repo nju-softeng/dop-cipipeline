@@ -60,6 +60,9 @@ public class MessageConsumer implements MessageListenerOrderly {
             consumer.subscribe(topic, "*");
             // 注册消息监听器
             consumer.registerMessageListener(this);
+            // 设置消费者线程数
+            consumer.setConsumeThreadMax(1);
+            consumer.setConsumeThreadMin(1);
             // 启动消费端
             consumer.start();
         } catch (MQClientException e) {
