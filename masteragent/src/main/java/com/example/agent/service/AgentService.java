@@ -5,6 +5,7 @@ import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class AgentService {
     @Autowired
     FileService fileService;
 
+    @Value("${server.port}")
+    Integer masterPort;
 
 
     public List<Integer> getslaveidsBymasterId(int masterid){
@@ -72,24 +75,29 @@ public class AgentService {
 
 
 
-    public void createAgent(String name,String urlStr){
-        String insertsql="insert into agentattribute(agent_name,agent_os,agent_memory,agent_cpu,agent_state,agent_mac,agent_type,agent_port) values (?,null,0,null,0,null,0,0)";
-        int affectRow=jdbcTemplate.update(insertsql,name);
-        if(affectRow>0){
-            String agentIdSql="select max(agent_id) from agentattribute";
-            int agentId=jdbcTemplate.queryForObject(agentIdSql,Integer.class);
-            if(agentId>0) {
-                JSONObject jsonObject=new JSONObject();
-                jsonObject.put("agentId",agentId);
-                String urlAndIpStr="http://"+urlStr+"/registerAgent";
-                System.out.println(urlAndIpStr);
-                //调用从节点的连接接口
-                fileService.doPost(urlAndIpStr,jsonObject);
-            }
+    public void createAgent(String name,String urlStr,int port){
+//        String insertsql="insert into agentattribute(agent_name,agent_os,agent_memory,agent_cpu,agent_state,agent_mac,agent_type,agent_port) values (?,null,0,null,0,null,0,0)";
+//        int affectRow=jdbcTemplate.update(insertsql,name);
+//        if(affectRow>0){
+        String agentIdSql="select max(agent_id) from agentattribute";
+        int agentId=jdbcTemplate.queryForObject(agentIdSql,Integer.class)+1;
+        if(agentId>0) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("agentId", agentId);
+            jsonObject.put("slaveIp", urlStr);
+            jsonObject.put("agentName", name);
+            jsonObject.put("agentport", masterPort);
+            String urlAndIpStr = "http://" + urlStr + ":" + String.valueOf(port) + "/registerAgent";
+//            System.out.println(urlAndIpStr);
+            //调用从节点的连接接口
+            String agentattributeVOStr = fileService.doPost(urlAndIpStr, jsonObject);
+            JSONObject agentattributeObject = JSONObject.parseObject(agentattributeVOStr);
+            AgentattributePO agentattributePO = AgentattributePO.fromJson(agentattributeObject);
+            insertSlaveAgentPO(agentattributePO);
         }
 
 
-    }
+        }
 
     public ResultMsg changeAgentState(int agentid,int state){
         String sql="update agentattribute set agent_state = ? where agent_id = ?";
@@ -103,5 +111,24 @@ public class AgentService {
         List<AgentattributePO> agentattributePOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentattributePO.class),state);
         return agentattributePOS;
     }
+
+    public void insertSlaveAgentPO(AgentattributePO agentPO){
+        // 定义SQL语句和参数
+        String sql = "INSERT INTO agentattribute(agent_id, agent_name, agent_os, agent_memory, agent_cpu, agent_state, agent_mac, agent_type, agent_ip, agent_port, agent_online_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Object[] params = {agentPO.getAgent_id(), agentPO.getAgent_name(), agentPO.getAgent_os(), agentPO.getAgent_memory(), agentPO.getAgent_cpu(), agentPO.getAgent_state(), agentPO.getAgent_mac(), agentPO.getAgent_type(), agentPO.getAgent_ip(), agentPO.getAgent_port(), agentPO.getAgent_online_time()};
+
+// 执行插入操作
+        int rows = jdbcTemplate.update(sql, params);
+
+// 判断是否插入成功
+        if (rows > 0) {
+            System.out.println("Insert successful");
+        } else {
+            System.out.println("Insert failed");
+        }
+    }
+
+
+
 
 }
