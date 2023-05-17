@@ -1,0 +1,47 @@
+server:
+  port: 14400
+spring:
+  application:
+    name: master-agent-server
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.29.7.157:3306/agent?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: dop
+    password: Dop_mysql_12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    data:
+      host: 172.29.7.157
+      port: 6379
+
+#filesystem
+filesystem:
+  file:
+    port: 8880
+  default:
+    directory: F:\\aa_agent\\slaveagent\\src\\main\\resources\\zip
+  zipfile:
+    port: 8881
+
+eureka:
+  instance:
+    appname: ${spring.application.name}
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+    prefer-ip-address: true
+    #????????
+    lease-renewal-interval-in-seconds: 5
+    #??????
+    lease-expiration-duration-in-seconds: 10
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-server:8761/eureka
+    registry-fetch-interval-seconds: 5
+mq:
+  RocketMQ:
+    namesrvAddr: 172.29.7.157:9876
+    groupName:  DOP_CIPIPELINE_PRODUCER_GROUP
+    instanceName: DOP_CIPIPELINE
+    maxMessageSize: 131072 # 1024*128
+    sendMessageTimeout: 10000
+    queueTopic: CIPIPELINE_EXECUTE_QUEUE
+    consumerGroup: DOP_CIPIPELINE_CONSUMER_GROUP

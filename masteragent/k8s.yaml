@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: master-agent-server
+  namespace: dop
+spec:
+  selector:
+    matchLabels:
+      app: master-agent-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: master-agent-server
+    spec:
+      containers:
+        - name: master-agent-server
+          imagePullPolicy: Always
+          image: 172.29.7.157:85/dop/master-agent-server:<BUILD_TAG>
+          resources:
+            requests:
+              memory: 384Mi
+              cpu: 250m
+            limits:
+              memory: 384Mi
+              cpu: 500m
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+            - name: host-timezone
+              mountPath: /etc/timezone
+          ports:
+            - containerPort: 13800
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+        - name: host-timezone
+          hostPath:
+            path: /etc/timezone
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: master-agent-server
+  namespace: dop
+  labels:
+    app: master-agent-server
+spec:
+  ports:
+    - port: 14400
+      protocol: TCP
+      targetPort: 14400
+  selector:
+    app: master-agent-server

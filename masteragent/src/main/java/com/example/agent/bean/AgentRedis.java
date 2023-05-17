@@ -1,14 +1,11 @@
 package com.example.agent.bean;
 
-import ch.qos.logback.core.model.INamedModel;
 import com.example.agent.po.AgentattributePO;
 import com.example.agent.service.AgentService;
 import com.example.agent.util.RedisUtil;
 import com.example.agent.util.SpringContextUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;

@@ -20,8 +20,8 @@ public class ServerDetailService {
     }
     public static int getMemory(){
 
-        double totalvirtualMemory = osmxb.getTotalMemorySize();
-        double freePhysicalMemorySize = osmxb.getFreeMemorySize();
+        double totalvirtualMemory = osmxb.getTotalPhysicalMemorySize();
+        double freePhysicalMemorySize = osmxb.getFreePhysicalMemorySize();
 
         double value = freePhysicalMemorySize/totalvirtualMemory;
         int percentMemoryLoad = (int) ((1-value)*100);
