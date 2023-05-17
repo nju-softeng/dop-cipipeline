@@ -4,7 +4,7 @@ pipeline{
 
     environment {
         REPOSITORY="https://github.com/nju-softeng/dop-cipipeline.git"
-        SERVICE_DIR="master-agent-server"
+        SERVICE_DIR="masteragent"
         DOCKER_REGISTRY_HOST="172.29.7.157:85"
         DOCKER_REGISTRY="172.29.7.157:85/dop/master-agent-server"
     }
