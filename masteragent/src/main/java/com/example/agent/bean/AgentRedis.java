@@ -22,7 +22,7 @@ public class AgentRedis {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Resource
+    @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
     @Autowired
