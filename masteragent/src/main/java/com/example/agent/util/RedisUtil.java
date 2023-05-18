@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class RedisUtil{
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     /**
