@@ -6,6 +6,7 @@ import com.example.agent.util.RedisUtil;
 import com.example.agent.util.SpringContextUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -18,15 +19,15 @@ import java.util.List;
 @Component
 public class AgentRedis {
 
-    @Resource
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
 
-    @Resource
+    @Autowired
     private RedisUtil redisUtil;
-    @Resource
+    @Autowired
     private AgentService agentService;
 
 //    @Resource
