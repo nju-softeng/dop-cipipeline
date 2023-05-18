@@ -55,6 +55,9 @@ public class AgentRedis {
 
     public List<Integer> getAgentIds(){
         List<Integer> ans=new ArrayList<>();
+        if(redisUtil.getList("agentIds")==null){
+            return ans;
+        }
         for(Object o:redisUtil.getList("agentIds")){
             ans.add((Integer) o);
         }

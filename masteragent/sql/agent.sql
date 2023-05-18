@@ -22,6 +22,5 @@ create table tools
     toolurl VARCHAR(255) NULL DEFAULT NULL COMMENT '工具的下载地址',
     toolname VARCHAR(15) NULL DEFAULT NULL COMMENT '工具的命名',
     tooldir VARCHAR(255) NULL DEFAULT NULL COMMENT '工具的下载后的路径',
-    fixcmd VARCHAR(255) NULL DEFAULT NULL COMMENT '工具的安装命令',
-
-)
+    fixcmd VARCHAR(255) NULL DEFAULT NULL COMMENT '工具的安装命令'
+);
