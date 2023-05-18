@@ -5,6 +5,8 @@ import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.ToolPO;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.vo.ToolVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,22 +28,24 @@ public class ToolService {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    private static final Logger logger = LoggerFactory.getLogger(ToolService.class);
+
     public ResultMsg saveToolConfig(ToolPO toolPO){
-        System.out.println("ToolService [saveToolConfig]");
+        logger.info("[saveToolConfig]");
         String sql="insert into tools(toolurl,toolname,tooldir,fixcmd) values(?,?,?,?)";
         int res=jdbcTemplate.update(sql,toolPO.getToolurl(),toolPO.getToolname(),toolPO.getTooldir(),toolPO.getFixcmd());
         return new ResultMsg(res);
     }
 
     public List<ToolPO> getAllTools(){
-        System.out.println("ToolService [getAllTools]");
+        logger.info("[getAllTools]");
         String sql="select * from tools";
         List<ToolPO> toolPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(ToolPO.class));
         return toolPOS;
     }
 
     public static void downloadNetResource(String urlStr, String fileName, String dir) {
-        System.out.println("ToolService [downloadNetResource]");
+        logger.info("[downloadNetResource]");
         // 下载网络文件
         System.out.println("開始下載！");
         int byteSum = 0;

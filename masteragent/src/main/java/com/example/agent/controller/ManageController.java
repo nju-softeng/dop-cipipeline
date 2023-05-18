@@ -3,6 +3,8 @@ package com.example.agent.controller;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.service.AgentService;
 import com.example.agent.service.AliveKeeperService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +15,10 @@ public class ManageController {
     @Autowired
     AliveKeeperService aliveKeeperService;
 
-
     @Autowired
     AgentService agentService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    @GetMapping(value = "/v1/agent")
 //    public int getAgent(int agentId){
@@ -24,14 +27,14 @@ public class ManageController {
 
     @GetMapping("setOnline")
     public ResultMsg setAgentOnline(int agentid){
-        System.out.println("ManageController [setOnline]");
+        logger.info("[setOnline]");
         agentService.changeAgentState(agentid,1);
         return null;
     }
 
     @GetMapping("setOffline")
     public ResultMsg setAgentOffline(int agentid){
-        System.out.println("ManageController [setOffline]");
+        logger.info("[setOffline]");
         agentService.changeAgentState(agentid,0);
         return null;
     }

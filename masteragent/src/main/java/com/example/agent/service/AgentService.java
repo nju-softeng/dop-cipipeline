@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -32,9 +34,10 @@ public class AgentService {
     @Value("${server.port}")
     Integer masterPort;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public List<Integer> getslaveidsBymasterId(int masterid){
-        System.out.println("AgentService [getslaveidsBymasterId]");
+        logger.info("[getslaveidsBymasterId]");
         String sql="select * from agentmaster where agent_master = ?";
 //        String sql="select * from agentmaster";
         List<AgentmasterPO> agentmasterPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentmasterPO.class),masterid);
@@ -47,7 +50,7 @@ public class AgentService {
     }
 
     public ResultMsg registAgent(int agentid){
-        System.out.println("AgentService [registAgent]");
+        logger.info("[registAgent]");
         String server_os=serverDetailService.getOS();
         double server_memory=serverDetailService.getMemory();
         String server_mac=serverDetailService.getLocalMac();
@@ -61,14 +64,14 @@ public class AgentService {
     }
 
     public AgentattributePO getAgentattributeByid(int agentid){
-        System.out.println("AgentService [getAgentattributeByid]");
+        logger.info("[getAgentattributeByid]");
         String sql="select * from agentattribute where agent_id = ?";
         AgentattributePO agentattributePO=jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(AgentattributePO.class),agentid);
         return agentattributePO;
     }
 
     public List<AgentattributePO> getAllAgentAttributes(){
-        System.out.println("AgentService [getAllAgentAttributes]");
+        logger.info("[getAllAgentAttributes]");
         String sql="select * from agentattribute";
         List<AgentattributePO> agentattributePOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentattributePO.class));
         return agentattributePOS;

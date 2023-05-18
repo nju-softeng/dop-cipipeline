@@ -5,6 +5,8 @@ import com.example.agent.po.ToolPO;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.service.ToolService;
 import com.example.agent.vo.ToolVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ public class ToolsController {
 
     @Autowired
     ToolService toolService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    @PostMapping("/addtools")
 //    public ResultMsg addTools(ToolPO toolPO){

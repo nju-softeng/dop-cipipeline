@@ -3,6 +3,8 @@ package com.example.agent.service;
 
 import com.example.agent.util.alivekeeperRunner;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,10 @@ public class AliveKeeperService {
 
     private ScheduledFuture future;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public void startTask(){
-        System.out.println("AliveKeeperService [startTask]");
+        logger.info("[startTask]");
         stop();
 
 //        String cron = "0 */1 * * * ?";
@@ -29,7 +33,7 @@ public class AliveKeeperService {
     }
 
     public void stop(){
-        System.out.println("AliveKeeperService [stop]");
+        logger.info("[stop]");
         if(future!=null){
             future.cancel(true);
         }

@@ -2,6 +2,8 @@ package com.example.agent.service;
 
 
 import com.sun.management.OperatingSystemMXBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.ManagementFactory;
@@ -16,12 +18,13 @@ public class ServerDetailService {
 
     private static OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
+    private static final Logger logger = LoggerFactory.getLogger(ServerDetailService.class);
 
     public static String getOS(){
         return osmxb.getName();
     }
     public static double getMemory(){
-        System.out.println("ServerDetailService [getMemory]");
+        logger.info("[getMemory]");
         double totalvirtualMemory = osmxb.getTotalPhysicalMemorySize();
         double freePhysicalMemorySize = osmxb.getFreePhysicalMemorySize();
 
@@ -31,7 +34,7 @@ public class ServerDetailService {
         return percentMemoryLoad;
     }
     public static String getIP(){
-        System.out.println("ServerDetailService [getIP]");
+        logger.info("[getIP]");
         InetAddress ia = null;
         try {
             ia = InetAddress.getLocalHost();
@@ -43,12 +46,12 @@ public class ServerDetailService {
     }
 
     public static String getCPU(){
-        System.out.println("ServerDetailService [getCPU]");
+        logger.info("[getCPU]");
         return osmxb.getArch();
     }
 
     public static String getLocalMac() {
-        System.out.println("ServerDetailService [getLocalMac]");
+        logger.info("[getLocalMac]");
         InetAddress ia= null;
         try {
             ia = InetAddress.getLocalHost();

@@ -6,6 +6,8 @@ import com.example.agent.util.RedisUtil;
 import com.example.agent.util.SpringContextUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,12 +32,14 @@ public class AgentRedis {
     @Autowired
     private AgentService agentService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 //    @Resource
 //    private RedisTemplate<String,AgentattributePO> redisTemplate;
 
     @PostConstruct
     public void  init(){
-        System.out.println("AgentRedis [init]");
+        logger.info("[init]");
         List<AgentattributePO> agentattributePOList=agentService.getAllAgentAttributes();
         List<Integer> agentIds=new ArrayList<>();
         redisTemplate.delete("agentIds");
@@ -47,18 +51,18 @@ public class AgentRedis {
     }
 
     public void setAgentById(int agentId,AgentattributePO agentattributePO){
-        System.out.println("AgentRedis [setAgentById]");
+        logger.info("[setAgentById]");
         redisUtil.set(String.valueOf(agentId),agentattributePO);
     }
 
     public AgentattributePO getAgentById(int agentId){
-        System.out.println("AgentRedis [getAgentById]");
+        logger.info("[getAgentById]");
     //        AgentattributePO agentattributePO=(AgentattributePO) redisUtil.get(String.valueOf(agentId));
        return (AgentattributePO) redisTemplate.opsForValue().get(String.valueOf(agentId));
     }
 
     public List<Integer> getAgentIds(){
-        System.out.println("AgentRedis [getAgentIds]");
+        logger.info("[getAgentIds]");
         List<Integer> ans=new ArrayList<>();
         if(redisUtil.getList("agentIds")==null){
             return ans;

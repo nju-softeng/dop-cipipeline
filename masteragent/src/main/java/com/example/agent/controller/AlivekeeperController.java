@@ -7,6 +7,8 @@ import com.example.agent.po.AgentattributePO;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.service.AliveKeeperService;
 import com.example.agent.util.RedisUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -28,9 +30,11 @@ public class AlivekeeperController {
     @Autowired
     AliveKeeperService alivekeeperService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @GetMapping("/starttask")
     public void startSchedule(){
-        System.out.println("AlivekeeperController [starttask]");
+        logger.info("[starttask]");
         System.out.println("start");
         alivekeeperService.startTask();
     }
@@ -38,7 +42,7 @@ public class AlivekeeperController {
 
     @PostMapping("/refreshagent")
     public void refreshAgent(@RequestBody JSONObject jsonObject) {
-        System.out.println("AlivekeeperController [refreshAgent]");
+        logger.info("[refreshAgent]");
         int agentId= (int) jsonObject.get("agentid");
         String refreshtime= (String) jsonObject.get("refreshtime");
         int memory= (int) jsonObject.get("agentmemory");

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +33,11 @@ public class AgentController {
     @Autowired
     ToolService toolService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @GetMapping("/getslaveAttributes")
     public List<AgentattributePO> getAllSlaves(int agentId){
-        System.out.println("AgentController [getAllSlaves]");
+        logger.info("[getAllSlaves]");
         List<Integer> slaveIds=agentRedis.getAgentIds();
         List<AgentattributePO> slaves=new ArrayList<>();
         for(Integer slaveid:slaveIds){
@@ -45,7 +49,7 @@ public class AgentController {
 
     @GetMapping("/registerAgent")
     public ResultMsg registerAgent(int agentId){
-        System.out.println("AgentController [registerAgent]");
+        logger.info("[registerAgent]");
         //注册节点
         agentService.registAgent(agentId);
         //开启心跳
@@ -57,9 +61,8 @@ public class AgentController {
 
     @GetMapping("/createAgent")
     public ResultMsg createAgent(String name,String urlAndport){
-        System.out.println("AgentController [createAgent]");
+        logger.info("[createAgent] name={}, urlAndport={}",name,urlAndport);
         agentService.createAgent(name,urlAndport.split(":")[0],Integer.parseInt(urlAndport.split(":")[1]));
-
         agentRedis.init();
         return null;
     }
