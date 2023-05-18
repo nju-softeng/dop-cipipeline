@@ -17,6 +17,7 @@ public class AliveKeeperService {
     private ScheduledFuture future;
 
     public void startTask(){
+        System.out.println("AliveKeeperService [startTask]");
         stop();
 
 //        String cron = "0 */1 * * * ?";
@@ -28,6 +29,7 @@ public class AliveKeeperService {
     }
 
     public void stop(){
+        System.out.println("AliveKeeperService [stop]");
         if(future!=null){
             future.cancel(true);
         }

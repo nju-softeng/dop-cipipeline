@@ -24,12 +24,14 @@ public class ManageController {
 
     @GetMapping("setOnline")
     public ResultMsg setAgentOnline(int agentid){
+        System.out.println("ManageController [setOnline]");
         agentService.changeAgentState(agentid,1);
         return null;
     }
 
     @GetMapping("setOffline")
     public ResultMsg setAgentOffline(int agentid){
+        System.out.println("ManageController [setOffline]");
         agentService.changeAgentState(agentid,0);
         return null;
     }

@@ -33,6 +33,7 @@ public class AgentController {
 
     @GetMapping("/getslaveAttributes")
     public List<AgentattributePO> getAllSlaves(int agentId){
+        System.out.println("AgentController [getAllSlaves]");
         List<Integer> slaveIds=agentRedis.getAgentIds();
         List<AgentattributePO> slaves=new ArrayList<>();
         for(Integer slaveid:slaveIds){
@@ -44,6 +45,7 @@ public class AgentController {
 
     @GetMapping("/registerAgent")
     public ResultMsg registerAgent(int agentId){
+        System.out.println("AgentController [registerAgent]");
         //注册节点
         agentService.registAgent(agentId);
         //开启心跳
@@ -55,6 +57,7 @@ public class AgentController {
 
     @GetMapping("/createAgent")
     public ResultMsg createAgent(String name,String url,int port){
+        System.out.println("AgentController [createAgent]");
         agentService.createAgent(name,url,port);
 
         agentRedis.init();

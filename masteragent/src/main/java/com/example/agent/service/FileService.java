@@ -28,6 +28,7 @@ public class FileService {
     @Value("${filesystem.zipfile.port}")
     private  int ZIPFILEPORT;
     public String sendPost(JSONObject jsonObject, int agentid) throws Exception {
+        System.out.println("FileService []");
         //根据agentid获得post请求的url
         String urlCom = "http://localhost:8081/sendfile";//这里是服务B的接口地址
 
@@ -37,6 +38,7 @@ public class FileService {
 
 
     public String doPost(String url ,JSONObject jsonObject) {
+        System.out.println("FileService [doPost]");
         // 建立Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
@@ -66,6 +68,7 @@ public class FileService {
     }
 
     public String compressDirectory(String srcFolder, String destZipFile) throws IOException {
+        System.out.println("FileService [compressDirectory]");
         FileOutputStream fos = new FileOutputStream(destZipFile);
         ZipOutputStream zipOut = new ZipOutputStream(fos);
 
@@ -80,6 +83,7 @@ public class FileService {
 
     // 递归压缩文件夹中的所有文件
     private  void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+        System.out.println("FileService [zipFile]");
         if (fileToZip.isHidden()) {
             return;
         }
@@ -113,6 +117,7 @@ public class FileService {
     }
 
     public  void sendZipFile(String filePath, String ipAddress){
+        System.out.println("FileService [sendZipFile]");
         Socket socket = null;
         try {
             socket = new Socket(ipAddress, ZIPFILEPORT);
@@ -140,6 +145,7 @@ public class FileService {
     }
 
     public void sendNormalFile(String ipAddress,String filePath) throws IOException {
+        System.out.println("FileService [sendNormalFile]");
         Socket socket=new Socket(ipAddress,FILEPORT);
         OutputStream outputStream=socket.getOutputStream();
         DataOutputStream dataOutputStream=new DataOutputStream(outputStream);

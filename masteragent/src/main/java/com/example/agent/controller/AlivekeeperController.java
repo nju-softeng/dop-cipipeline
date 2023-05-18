@@ -30,6 +30,7 @@ public class AlivekeeperController {
 
     @GetMapping("/starttask")
     public void startSchedule(){
+        System.out.println("AlivekeeperController [starttask]");
         System.out.println("start");
         alivekeeperService.startTask();
     }
@@ -37,6 +38,7 @@ public class AlivekeeperController {
 
     @PostMapping("/refreshagent")
     public void refreshAgent(@RequestBody JSONObject jsonObject) {
+        System.out.println("AlivekeeperController [refreshAgent]");
         int agentId= (int) jsonObject.get("agentid");
         String refreshtime= (String) jsonObject.get("refreshtime");
         int memory= (int) jsonObject.get("agentmemory");

@@ -34,7 +34,7 @@ public class AgentService {
 
 
     public List<Integer> getslaveidsBymasterId(int masterid){
-
+        System.out.println("AgentService [getslaveidsBymasterId]");
         String sql="select * from agentmaster where agent_master = ?";
 //        String sql="select * from agentmaster";
         List<AgentmasterPO> agentmasterPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentmasterPO.class),masterid);
@@ -47,6 +47,7 @@ public class AgentService {
     }
 
     public ResultMsg registAgent(int agentid){
+        System.out.println("AgentService [registAgent]");
         String server_os=serverDetailService.getOS();
         double server_memory=serverDetailService.getMemory();
         String server_mac=serverDetailService.getLocalMac();
@@ -60,12 +61,14 @@ public class AgentService {
     }
 
     public AgentattributePO getAgentattributeByid(int agentid){
+        System.out.println("AgentService [getAgentattributeByid]");
         String sql="select * from agentattribute where agent_id = ?";
         AgentattributePO agentattributePO=jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(AgentattributePO.class),agentid);
         return agentattributePO;
     }
 
     public List<AgentattributePO> getAllAgentAttributes(){
+        System.out.println("AgentService [getAllAgentAttributes]");
         String sql="select * from agentattribute";
         List<AgentattributePO> agentattributePOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentattributePO.class));
         return agentattributePOS;

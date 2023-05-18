@@ -21,7 +21,7 @@ public class ServerDetailService {
         return osmxb.getName();
     }
     public static double getMemory(){
-
+        System.out.println("ServerDetailService [getMemory]");
         double totalvirtualMemory = osmxb.getTotalPhysicalMemorySize();
         double freePhysicalMemorySize = osmxb.getFreePhysicalMemorySize();
 
@@ -31,6 +31,7 @@ public class ServerDetailService {
         return percentMemoryLoad;
     }
     public static String getIP(){
+        System.out.println("ServerDetailService [getIP]");
         InetAddress ia = null;
         try {
             ia = InetAddress.getLocalHost();
@@ -42,11 +43,12 @@ public class ServerDetailService {
     }
 
     public static String getCPU(){
-
+        System.out.println("ServerDetailService [getCPU]");
         return osmxb.getArch();
     }
 
     public static String getLocalMac() {
+        System.out.println("ServerDetailService [getLocalMac]");
         InetAddress ia= null;
         try {
             ia = InetAddress.getLocalHost();

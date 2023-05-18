@@ -27,18 +27,21 @@ public class ToolService {
     JdbcTemplate jdbcTemplate;
 
     public ResultMsg saveToolConfig(ToolPO toolPO){
+        System.out.println("ToolService [saveToolConfig]");
         String sql="insert into tools(toolurl,toolname,tooldir,fixcmd) values(?,?,?,?)";
         int res=jdbcTemplate.update(sql,toolPO.getToolurl(),toolPO.getToolname(),toolPO.getTooldir(),toolPO.getFixcmd());
         return new ResultMsg(res);
     }
 
     public List<ToolPO> getAllTools(){
+        System.out.println("ToolService [getAllTools]");
         String sql="select * from tools";
         List<ToolPO> toolPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(ToolPO.class));
         return toolPOS;
     }
 
     public static void downloadNetResource(String urlStr, String fileName, String dir) {
+        System.out.println("ToolService [downloadNetResource]");
         // 下载网络文件
         System.out.println("開始下載！");
         int byteSum = 0;
