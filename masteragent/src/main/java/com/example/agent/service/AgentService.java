@@ -86,7 +86,11 @@ public class AgentService {
 //        int affectRow=jdbcTemplate.update(insertsql,name);
 //        if(affectRow>0){
         String agentIdSql="select max(agent_id) from agentattribute";
-        int agentId=jdbcTemplate.queryForObject(agentIdSql,Integer.class)+1;
+        int agentId=1;
+        Integer lastAgentId=jdbcTemplate.queryForObject(agentIdSql,Integer.class);
+        if(lastAgentId!=null){
+            agentId=lastAgentId+1;
+        }
         if(agentId>0) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("agentId", agentId);
