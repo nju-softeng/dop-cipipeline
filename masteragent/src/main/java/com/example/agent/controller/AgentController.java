@@ -56,9 +56,9 @@ public class AgentController {
     }
 
     @GetMapping("/createAgent")
-    public ResultMsg createAgent(String name,String url,int port){
+    public ResultMsg createAgent(String name,String urlAndport){
         System.out.println("AgentController [createAgent]");
-        agentService.createAgent(name,url,port);
+        agentService.createAgent(name,urlAndport.split(":")[0],Integer.parseInt(urlAndport.split(":")[1]));
 
         agentRedis.init();
         return null;
