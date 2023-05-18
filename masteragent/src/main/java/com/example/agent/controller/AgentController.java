@@ -60,9 +60,9 @@ public class AgentController {
     }
 
     @GetMapping("/createAgent")
-    public ResultMsg createAgent(String name,String urlAndport){
-        logger.info("[createAgent] name={}, urlAndport={}",name,urlAndport);
-        agentService.createAgent(name,urlAndport.split(":")[0],Integer.parseInt(urlAndport.split(":")[1]));
+    public ResultMsg createAgent(String name,String urlAndPort){
+        logger.info("[createAgent] name={}, urlAndport={}",name,urlAndPort);
+        agentService.createAgent(name,urlAndPort.split(":")[0],Integer.parseInt(urlAndPort.split(":")[1]));
         agentRedis.init();
         return null;
     }
