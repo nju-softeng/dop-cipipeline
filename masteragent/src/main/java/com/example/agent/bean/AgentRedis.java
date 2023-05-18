@@ -34,6 +34,7 @@ public class AgentRedis {
 
     @PostConstruct
     public void  init(){
+        System.out.println("AgentRedis [init]");
         List<AgentattributePO> agentattributePOList=agentService.getAllAgentAttributes();
         List<Integer> agentIds=new ArrayList<>();
         redisTemplate.delete("agentIds");
@@ -45,15 +46,18 @@ public class AgentRedis {
     }
 
     public void setAgentById(int agentId,AgentattributePO agentattributePO){
+        System.out.println("AgentRedis [setAgentById]");
         redisUtil.set(String.valueOf(agentId),agentattributePO);
     }
 
     public AgentattributePO getAgentById(int agentId){
+        System.out.println("AgentRedis [getAgentById]");
     //        AgentattributePO agentattributePO=(AgentattributePO) redisUtil.get(String.valueOf(agentId));
        return (AgentattributePO) redisTemplate.opsForValue().get(String.valueOf(agentId));
     }
 
     public List<Integer> getAgentIds(){
+        System.out.println("AgentRedis [getAgentIds]");
         List<Integer> ans=new ArrayList<>();
         if(redisUtil.getList("agentIds")==null){
             return ans;
