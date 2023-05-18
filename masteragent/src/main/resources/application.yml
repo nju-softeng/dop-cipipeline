@@ -10,9 +10,16 @@ spring:
     password: Dop_mysql_12345
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    data:
-      host: 172.29.7.157
-      port: 6379
+    database: 0
+    host: 172.29.7.157
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+      timeout: 5000
 
 #filesystem
 filesystem:
