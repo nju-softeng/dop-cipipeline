@@ -48,7 +48,7 @@ public class AgentController {
 //        //注册节点
         AgentattributeVO agentattributeVO= agentService.registAgent(agentId,agentName,masterIp,masterPort,slaveIp);
         //开启心跳
-//        alivekeeperController.startSchedule();
+        alivekeeperController.startSchedule();
         //开启下载任务
 //        toolsService.downloadNetResource("https://mirrors.jenkins-ci.org/war/latest/jenkins.war","jenkins","F:\\aa_agent\\slaveagent\\src\\main\\resources\\tools");
         //使用多线程下载任务提高下载速度

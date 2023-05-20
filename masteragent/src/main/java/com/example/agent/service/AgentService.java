@@ -108,6 +108,7 @@ public class AgentService {
             JSONObject agentattributeObject = JSONObject.parseObject(agentattributeVOStr);
             AgentattributePO agentattributePO = AgentattributePO.fromJson(agentattributeObject);
             insertSlaveAgentPO(agentattributePO);
+            this.changeAgentState(agentId,1);
         }
 
 
