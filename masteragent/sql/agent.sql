@@ -12,6 +12,7 @@ CREATE TABLE agentattribute
     agent_type INT(11) NULL DEFAULT NULL COMMENT '测试节点是主节点还是从节点（0表示主，1表示从)',
     agent_ip  VARCHAR(255) NULL DEFAULT NULL COMMENT '测试节点的ip地址',
     agent_port  INT(11) NULL DEFAULT NULL COMMENT '测试节点的监听端口',
+    agent_online_time VARCHAR(30) NULL DEFAULT NULL COMMENT '测试节点机器上线时间',
     PRIMARY KEY (agent_id)
 );
 
