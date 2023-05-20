@@ -6,6 +6,8 @@ import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.SlaveAgentPO;
 import com.example.agent.util.alivekeeperRunner;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,7 +36,10 @@ public class AliveKeeperService {
 
     private ScheduledFuture future;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public void startTask(){
+        logger.info("[startTask]");
         stop();
 
 //        String cron = "0 */1 * * * ?";
@@ -46,12 +51,14 @@ public class AliveKeeperService {
     }
 
     public void stop(){
+        logger.info("[stop]");
         if(future!=null){
             future.cancel(true);
         }
     }
 
     public void refreshAgent(){
+        logger.info("[refreshAgent]");
         int agentId= agentService.getThisAgentId();
         String slaveAgentSql="select * from slave_agent where agent_id = ?";
         SlaveAgentPO slaveAgentPO=jdbcTemplate.queryForObject(slaveAgentSql,new BeanPropertyRowMapper<>(SlaveAgentPO.class),agentId);

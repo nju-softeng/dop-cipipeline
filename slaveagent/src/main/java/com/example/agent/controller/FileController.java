@@ -3,6 +3,8 @@ package com.example.agent.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.service.FileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +21,11 @@ public class FileController {
 
     FileService fileService=new FileService();
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping(value = "/transfile")
     public ResultMsg transFile(int agentid, JSONObject jsonobject) throws Exception {
+        logger.info("[transFile]");
         String msg=fileService.sendPost(jsonobject,agentid);
         ResultMsg rst=new ResultMsg(msg);
         return rst;
@@ -29,6 +33,7 @@ public class FileController {
 
     @PostMapping("/getfile")
     public ResultMsg getFile(MultipartHttpServletRequest request) {
+        logger.info("[getfile]");
         MultipartFile file = request.getFile("upload");
         System.out.println(file);
         return null;
@@ -36,7 +41,7 @@ public class FileController {
 
     @PostMapping("/sendfile")
     public ResultMsg GetFile(@RequestBody String jsonObject) {
-
+        logger.info("[sendfile] jsonObject={}",jsonObject);
         System.out.println(jsonObject);
         return null;
     }

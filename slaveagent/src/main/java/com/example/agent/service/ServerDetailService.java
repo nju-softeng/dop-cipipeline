@@ -2,6 +2,8 @@ package com.example.agent.service;
 
 
 import com.sun.management.OperatingSystemMXBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.ManagementFactory;
@@ -14,12 +16,13 @@ public class ServerDetailService {
 
     private static OperatingSystemMXBean osmxb = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
+    private static final Logger logger = LoggerFactory.getLogger(ServerDetailService.class);
 
     public static String getOS(){
         return osmxb.getName();
     }
     public static int getMemory(){
-
+        logger.info("[getMemory]");
         double totalvirtualMemory = osmxb.getTotalPhysicalMemorySize();
         double freePhysicalMemorySize = osmxb.getFreePhysicalMemorySize();
 
@@ -29,6 +32,7 @@ public class ServerDetailService {
         return percentMemoryLoad;
     }
     public String getIP(){
+        logger.info("[getIP]");
         Enumeration<NetworkInterface> interfaces = null;
         try {
             interfaces = NetworkInterface.getNetworkInterfaces();
@@ -55,11 +59,12 @@ public class ServerDetailService {
     }
 
     public static String getCPU(){
-
+        logger.info("[getCPU]");
         return osmxb.getArch();
     }
 
     public  String getLocalMac()  {
+        logger.info("[getLocalMac]");
         Enumeration<NetworkInterface> interfaces = null;
         try {
             interfaces = NetworkInterface.getNetworkInterfaces();
@@ -85,8 +90,4 @@ public class ServerDetailService {
         }
         return "";
     }
-
-
-
-
 }

@@ -4,6 +4,8 @@ import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.vo.AgentattributeVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +28,7 @@ public class AgentService {
     @Autowired
     ServerDetailService serverDetailService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 //    @Autowired
 //    public AgentService() {
@@ -45,7 +48,7 @@ public class AgentService {
 //    }
 
     public List<Integer> getslaveidsBymasterId(int masterid){
-
+        logger.info("[getslaveidsBymasterId] masterid={}",masterid);
         String sql="select * from agentmaster where agent_master = ?";
         List<AgentmasterPO> agentmasterPOS=jdbcTemplate.query(sql,new BeanPropertyRowMapper<>(AgentmasterPO.class),masterid);
         List<Integer> slaveids = new ArrayList<>();
@@ -56,6 +59,7 @@ public class AgentService {
     }
 
     public AgentattributeVO registAgent(int agentid, String agentName, String masterIp, int masterPort, String slaveIp){
+        logger.info("[registAgent] agentid={} agentName={} masterIp={} masterPort={} slaveIp={}",agentid,agentName,masterIp,masterPort,slaveIp);
         String insertSql = "INSERT INTO slave_agent (agent_id,slave_ip, master_ip, master_port) VALUES (?,?, ?, ?)";
         int affectrow=jdbcTemplate.update(insertSql,agentid,slaveIp,masterIp,masterPort);
         if(affectrow>0){
@@ -73,12 +77,14 @@ public class AgentService {
     }
 
     public AgentattributePO getAgentattributeByid(int agentid){
+        logger.info("[getAgentattributeByid] agentid={}",agentid);
         String sql="select * from agentattribute where agent_id = ?";
         AgentattributePO agentattributePO=jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(AgentattributePO.class),agentid);
         return agentattributePO;
     }
 
     public AgentattributePO getthisAgent(){
+        logger.info("[getthisAgent]");
         String mac=serverDetailService.getLocalMac();
         String sql="select * from agentattribute where agent_mac = ?";
         AgentattributePO agentattributePO=jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(AgentattributePO.class),mac);
@@ -86,6 +92,7 @@ public class AgentService {
     }
 
     public int getThisAgentId(){
+        logger.info("[getThisAgentId]");
         String latestIdSql="select max(agent_id) from agentattribute";
         int latestId=jdbcTemplate.queryForObject(latestIdSql,Integer.class);
         return latestId;
@@ -97,6 +104,7 @@ public class AgentService {
     }
 
     public int createAgentBymaster(int masterid,String name){
+        logger.info("[createAgentBymaster] masterid={} name={}",masterid,name);
         String insertsql="insert into agentattribute(agent_name,agent_os,agent_memory,agent_cpu,agent_state,agent_mac,agent_type) values (?,null,null,null,null,null,null)";
         int affectrow=jdbcTemplate.update(insertsql,name);
         String findPriKey="select agent_id from agentattribute where agent_name=?";
@@ -110,15 +118,16 @@ public class AgentService {
     }
 
     public ResultMsg createMasterAgent(String name){
+        logger.info("[createMasterAgent] name={}",name);
         String insertsql="insert into agentattribute(agent_name,agent_os,agent_memory,agent_cpu,agent_state,agent_mac,agent_type,agent_ip,agent_port,agent_online_time) values (?,null,null,null,null,null,null,null,null,null)";
         int affectrow=jdbcTemplate.update(insertsql,name);
         return null;
     }
 
     public ResultMsg changeAgentState(int agentid,int state){
+        logger.info("[changeAgentState] agentid={} state={}",agentid,state);
         String sql="update agentattribute set agent_state = ? where agent_id = ?";
         int res=jdbcTemplate.update(sql,state,agentid);
         return null;
-
     }
 }

@@ -17,11 +17,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FileService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public String sendPost(JSONObject jsonObject, int agentid) throws Exception {
+        logger.info("[sendPost]");
         //根据agentid获得post请求的url
         String urlCom = "http://127.0.0.1:8080/sendfile";//这里是服务B的接口地址
 
@@ -31,6 +37,7 @@ public class FileService {
 
 
     public String doPost(String url ,JSONObject jsonObject) {
+        logger.info("[doPost]");
         // 建立Httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = null;

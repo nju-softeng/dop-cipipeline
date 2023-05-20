@@ -4,6 +4,8 @@ package com.example.agent.service;
 import com.example.agent.pojo.ResultMsg;
 import com.example.agent.util.MultiThreadDownloader;
 import io.micrometer.common.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.*;
@@ -22,11 +24,14 @@ public class ToolsService {
     @Value("${toolsystem.download.threadNum}")
     private  int MAX_THREADS;
 
+    private static final Logger logger = LoggerFactory.getLogger(ToolsService.class);
+
     public List<String> getUrls(){
         return null;
     }
 
     public static void downloadNetResource(String urlStr, String fileName, String dir) {
+        logger.info("[downloadNetResource] urlStr={} fileName={} dir={}",urlStr,fileName,dir);
         // 下载网络文件
         int byteSum = 0;
         int byteRead = 0;
@@ -66,6 +71,7 @@ public class ToolsService {
 
 
     public  void downloadNetResourceByMultiThread(String urlStr, String fileName, String dir) {
+        logger.info("[registerAgent] urlStr={} fileName={} dir={}",urlStr,fileName,dir);
         ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
         URL url = null;
         try {
@@ -102,6 +108,7 @@ public class ToolsService {
 
 
     public ResultMsg fixWar(String dirPath,String fileName){
+        logger.info("[registerAgent] dirPath={} fileName={}",dirPath,fileName);
         try {
             Runtime mt = Runtime.getRuntime();
 //            String[] cmd = new String[1];

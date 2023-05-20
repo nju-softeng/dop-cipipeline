@@ -31,7 +31,10 @@ public class AgentService {
     @Autowired
     FileService fileService;
 
-    @Value("${server.port}")
+    @Value("${service.url}")
+    Integer masterUrl;
+
+    @Value("${service.port}")
     Integer masterPort;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -96,9 +99,10 @@ public class AgentService {
             jsonObject.put("agentId", agentId);
             jsonObject.put("slaveIp", urlStr);
             jsonObject.put("agentName", name);
+            jsonObject.put("agentUrl", masterUrl);
             jsonObject.put("agentport", masterPort);
             String urlAndIpStr = "http://" + urlStr + ":" + String.valueOf(port) + "/registerAgent";
-//            System.out.println(urlAndIpStr);
+            logger.info("[createAgent] urlAndIpStr={}",urlAndIpStr);
             //调用从节点的连接接口
             String agentattributeVOStr = fileService.doPost(urlAndIpStr, jsonObject);
             JSONObject agentattributeObject = JSONObject.parseObject(agentattributeVOStr);
