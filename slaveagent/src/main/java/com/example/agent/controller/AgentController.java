@@ -37,7 +37,7 @@ public class AgentController {
 
     //注册从节点
     @PostMapping("/registerAgent")
-    public AgentattributeVO registerAgent(@RequestBody String agentIdString, HttpServletRequest request){
+    public AgentattributeVO registerAgent(@RequestBody String agentIdString){
         logger.info("[registerAgent]");
         JSONObject agentIdObject=JSONObject.parseObject(agentIdString);
         int agentId= (int) agentIdObject.get("agentId");
