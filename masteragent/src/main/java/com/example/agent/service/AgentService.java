@@ -32,7 +32,7 @@ public class AgentService {
     FileService fileService;
 
     @Value("${service.url}")
-    Integer masterUrl;
+    String masterUrl;
 
     @Value("${service.port}")
     Integer masterPort;
