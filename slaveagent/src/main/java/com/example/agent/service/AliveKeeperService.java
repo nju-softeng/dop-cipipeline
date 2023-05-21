@@ -63,7 +63,7 @@ public class AliveKeeperService {
         String slaveAgentSql="select * from slave_agent where agent_id = ?";
         SlaveAgentPO slaveAgentPO=jdbcTemplate.queryForObject(slaveAgentSql,new BeanPropertyRowMapper<>(SlaveAgentPO.class),agentId);
 //        String url="http://172.31.59.131:8080/refreshagent";
-        String url="http://"+slaveAgentPO.getMaster_ip()+":"+String.valueOf(slaveAgentPO.getMaster_port())+"/refreshagent";
+        String url="http://"+slaveAgentPO.getMaster_ip()+":"+String.valueOf(slaveAgentPO.getMaster_port())+"/master-agent-server/refreshagent";
         System.out.println(url);
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("agentid",agentId);

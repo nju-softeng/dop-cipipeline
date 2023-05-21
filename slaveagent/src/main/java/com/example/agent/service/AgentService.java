@@ -7,6 +7,7 @@ import com.example.agent.vo.AgentattributeVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class AgentService {
 
     @Autowired
     ServerDetailService serverDetailService;
+
+    @Value("${server.port}")
+    Integer agent_port;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -70,7 +74,7 @@ public class AgentService {
             String server_ip=serverDetailService.getIP();
             SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date=sdf.format(System.currentTimeMillis());
-            AgentattributeVO agentattributeVO=new AgentattributeVO(agentid,agentName,server_os,server_memory,server_cpu,0,server_mac,0,slaveIp,8080,date);
+            AgentattributeVO agentattributeVO=new AgentattributeVO(agentid,agentName,server_os,server_memory,server_cpu,0,server_mac,1,slaveIp,agent_port,date);
             return agentattributeVO;
         }
         return null;

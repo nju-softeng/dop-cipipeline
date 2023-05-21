@@ -43,10 +43,14 @@ public class AgentRedis {
         List<AgentattributePO> agentattributePOList=agentService.getAllAgentAttributes();
         List<Integer> agentIds=new ArrayList<>();
         redisTemplate.delete("agentIds");
+        redisTemplate.delete("freeAgents");
         for(AgentattributePO agentattributePO:agentattributePOList){
             agentIds.add(agentattributePO.getAgent_id());
             redisTemplate.opsForValue().set(String.valueOf(agentattributePO.getAgent_id()),agentattributePO);
             redisUtil.appendInteger("agentIds",agentattributePO.getAgent_id());
+            if(agentattributePO.getAgent_state()==1){
+                redisUtil.appendInteger("freeAgents",agentattributePO.getAgent_id());
+            }
         }
     }
 
