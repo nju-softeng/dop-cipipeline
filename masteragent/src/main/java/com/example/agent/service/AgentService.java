@@ -1,6 +1,8 @@
 package com.example.agent.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.agent.bean.AgentRedis;
+import com.example.agent.config.RedisConfig;
 import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
@@ -31,6 +33,9 @@ public class AgentService {
 
     @Autowired
     FileService fileService;
+
+    @Autowired
+    AgentRedis agentRedis;
 
     @Autowired
     RedisUtil redisUtil;
@@ -118,6 +123,7 @@ public class AgentService {
     public ResultMsg changeAgentState(int agentid, int state) {
         String sql = "update agentattribute set agent_state = ? where agent_id = ?";
         int res = jdbcTemplate.update(sql, state, agentid);
+        agentRedis.init();
         return null;
 
     }

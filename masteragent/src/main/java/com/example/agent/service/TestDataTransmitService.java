@@ -82,6 +82,5 @@ public class TestDataTransmitService {
     public void addFreeAgent(int agentId){
         logger.info("[addFreeAgent]");
         this.agentService.changeAgentState(agentId,1);
-        this.redisTemplate.opsForList().rightPush("freeAgents", String.valueOf(agentId));
     }
 }
