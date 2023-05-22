@@ -2,7 +2,7 @@ hostUrl: http://open.devopsplus.com.cn:7080/cipipeline-server
 projectPath: /Users/yangyuyan/Desktop/dop-cipipeline/cipipeline-server
 localCodeBasePath: /localCodeBase/
 server:
-  port: 14100
+  port: 14300
 spring:
   application:
     name: cipipeline-server

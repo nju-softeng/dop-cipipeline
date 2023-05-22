@@ -229,6 +229,7 @@ public class CIPipelineCoreSchedulerService {
      * @param resultStr
      */
     public void saveTestResult(String resultStr){
+        logger.info("[resultStr] request comming: resultStr={}",resultStr);
         JSONObject resultJsonObject=null;
         try{
             resultJsonObject=JSONObject.parseObject(resultStr);

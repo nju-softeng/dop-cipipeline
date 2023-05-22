@@ -66,6 +66,7 @@ public class CIPipelineCoreSchedulerController {
 
     @PostMapping(value = "/saveTestResult")
     public void saveTestResult(@RequestBody String resultStr){
+        logger.info("[saveTestResult] request comming resultStr={}",resultStr);
         this.ciPipelineCoreSchedulerService.saveTestResult(resultStr);
     }
 

@@ -48,8 +48,8 @@ metadata:
     app: cipipeline-server
 spec:
   ports:
-    - port: 14100
+    - port: 14300
       protocol: TCP
-      targetPort: 14100
+      targetPort: 14300
   selector:
     app: cipipeline-server
