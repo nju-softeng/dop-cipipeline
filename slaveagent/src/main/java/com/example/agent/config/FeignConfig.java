@@ -1,6 +1,7 @@
 package com.example.agent.config;
 
 import feign.Logger;
+import feign.Request;
 import feign.Retryer;
 import feign.codec.Decoder;
 import org.springframework.beans.factory.ObjectFactory;
@@ -33,6 +34,10 @@ public class FeignConfig {
         return Logger.Level.FULL;
     }
 
+    @Bean
+    public Request.Options options() {
+        return new Request.Options(2000000, 2000000);
+    }
 
     @Bean
     public Decoder feignDecoder() {
