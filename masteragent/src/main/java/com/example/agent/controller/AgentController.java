@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,8 @@ import java.util.List;
 @RestController
 public class AgentController {
 
-    static AgentRedis agentRedis;
+    @Autowired
+    AgentRedis agentRedis;
 
     @Autowired
     AgentService agentService;
@@ -66,13 +68,14 @@ public class AgentController {
         return null;
     }
 
-
-
     @GetMapping(value = "/v1/agent")
     public SlaveMsg getAgentAttribute(String agentMac){
         return null;
     }
 
-
-
+    @PostConstruct
+    public void init(){
+        System.out.println("[init]");
+        this.agentRedis.init();
+    }
 }
