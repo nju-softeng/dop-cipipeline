@@ -21,8 +21,7 @@ import java.util.List;
 @RestController
 public class AgentController {
 
-    @Autowired
-    AgentRedis agentRedis;
+    static AgentRedis agentRedis;
 
     @Autowired
     AgentService agentService;
