@@ -110,7 +110,6 @@ public class AgentService {
             AgentattributePO agentattributePO = AgentattributePO.fromJson(agentattributeObject);
             insertSlaveAgentPO(agentattributePO);
             this.changeAgentState(agentId, 1);
-            redisUtil.appendInteger("freeAgents",agentId);
         }
 
 
