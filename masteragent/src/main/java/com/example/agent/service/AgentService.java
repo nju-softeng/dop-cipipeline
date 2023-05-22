@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.agent.po.AgentattributePO;
 import com.example.agent.po.AgentmasterPO;
 import com.example.agent.pojo.ResultMsg;
+import com.example.agent.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class AgentService {
 
     @Autowired
     FileService fileService;
+
+    @Autowired
+    RedisUtil redisUtil;
 
     @Value("${service.url}")
     String masterUrl;
@@ -106,6 +110,7 @@ public class AgentService {
             AgentattributePO agentattributePO = AgentattributePO.fromJson(agentattributeObject);
             insertSlaveAgentPO(agentattributePO);
             this.changeAgentState(agentId, 1);
+            redisUtil.appendInteger("freeAgents",agentId);
         }
 
 
