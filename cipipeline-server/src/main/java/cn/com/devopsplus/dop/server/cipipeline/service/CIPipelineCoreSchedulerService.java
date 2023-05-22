@@ -252,6 +252,8 @@ public class CIPipelineCoreSchedulerService {
                         .prMergeLog(singleResultJsonObject.getString("mergeLog"))
                         .build();
                 this.ciTestResultRepository.saveAndFlush(ciTestResult);
+                ciPipeline.setRunningState(CIPipeline.RunningState.Done);
+                ciPipelineRepository.saveAndFlush(ciPipeline);
                 continue;
             }
             CITestResult ciTestResult=CITestResult.builder()
