@@ -67,6 +67,7 @@ public class TestDataTransmitService {
     }
 
     public long getFreeAgentsNum(){
+        logger.info("[getFreeAgentsNum]");
         if(redisUtil.getList("freeAgents")==null){
             return 0l;
         }
@@ -74,10 +75,12 @@ public class TestDataTransmitService {
     }
 
     public int useFirstFreeAgent(){
+        logger.info("[useFirstFreeAgent]");
         return Integer.parseInt(this.redisTemplate.opsForList().leftPop("freeAgents"));
     }
 
     public void addFreeAgent(int agentId){
+        logger.info("[addFreeAgent]");
         this.agentService.changeAgentState(agentId,1);
         this.redisTemplate.opsForList().rightPush("freeAgents", String.valueOf(agentId));
     }

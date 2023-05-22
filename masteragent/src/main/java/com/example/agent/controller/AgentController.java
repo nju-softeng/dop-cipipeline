@@ -75,7 +75,7 @@ public class AgentController {
 
     @PostConstruct
     public void init(){
-        System.out.println("[init]");
+        logger.info("[init]");
         this.agentRedis.init();
     }
 }
