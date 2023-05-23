@@ -18,7 +18,6 @@ public class TestTaskController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //注册从节点
     @PostMapping("/testTask")
     public String testTask(@RequestBody String transmitData){
         logger.info("[testTask] get test data!");

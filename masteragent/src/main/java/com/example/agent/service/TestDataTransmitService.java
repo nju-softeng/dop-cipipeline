@@ -60,6 +60,7 @@ public class TestDataTransmitService {
                 AgentattributePO agentattributePO=agentRedis.getAgentById(agentId);
                 String url="http://" + agentattributePO.getAgent_ip() + ":" + agentattributePO.getAgent_port() + "/testTask";
                 String testResultStr=fileService.doPost(url,transmitDataJsonObject);
+                logger.info("[generateTransmitData] get test result: {}",testResultStr);
                 ciPipelineFeign.saveTestResult(testResultStr);
                 addFreeAgent(agentId);
             }
