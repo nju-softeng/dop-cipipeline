@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-manage-server
+  namespace: dop
+spec:
+  selector:
+    matchLabels:
+      app: model-manage-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: model-manage-server
+    spec:
+      containers:
+        - name: model-manage-server
+          imagePullPolicy: Always
+          image: 172.29.7.157:85/dop/model-manage-server:<BUILD_TAG>
+          resources:
+            requests:
+              memory: 384Mi
+              cpu: 250m
+            limits:
+              memory: 384Mi
+              cpu: 500m
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+            - name: host-timezone
+              mountPath: /etc/timezone
+          ports:
+            - containerPort: 14500
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+        - name: host-timezone
+          hostPath:
+            path: /etc/timezone
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-manage-server
+  namespace: dop
+  labels:
+    app: model-manage-server
+spec:
+  ports:
+    - port: 14500
+      protocol: TCP
+      targetPort: 14500
+  selector:
+    app: model-manage-server

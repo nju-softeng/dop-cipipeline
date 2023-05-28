@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ModelConfig {
 
-    private final String AlgorithmAddress="http://123.249.5.180:9001";
+    private final String AlgorithmAddress="http://172.29.7.157:9001";
 
     //private final String dataPath="/tmp/";
-    public final String dataPath="C:\\Users\\jack\\Desktop\\新建文件夹 (4)";
+    public final String dataPath="/LocalCodeBase";
 
     private final String pythonProjectPath="/root/code/src";
 
