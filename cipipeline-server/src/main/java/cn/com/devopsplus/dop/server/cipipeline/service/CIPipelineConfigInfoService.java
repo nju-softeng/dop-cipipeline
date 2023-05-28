@@ -5,6 +5,7 @@ import cn.com.devopsplus.dop.server.cipipeline.dao.configInfo.CIStageRepository;
 import cn.com.devopsplus.dop.server.cipipeline.dao.configInfo.ConfigInfoRepository;
 import cn.com.devopsplus.dop.server.cipipeline.dao.configInfo.TrainSetModeRepository;
 import cn.com.devopsplus.dop.server.cipipeline.dao.configInfo.UpdateModeRepository;
+import cn.com.devopsplus.dop.server.cipipeline.feign.ModelManageFeign;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.CIStage;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.ConfigInfo;
 import cn.com.devopsplus.dop.server.cipipeline.model.po.configInfo.TrainSetMode;
@@ -13,6 +14,7 @@ import cn.com.devopsplus.dop.server.cipipeline.model.vo.ConfigInfoVo;
 import cn.com.devopsplus.dop.server.cipipeline.util.JenkinsFileUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -60,6 +63,10 @@ public class CIPipelineConfigInfoService {
     // 用于读取applicaiton.yaml参数
     @Autowired
     private Environment environment;
+    @Autowired
+    private ModelManageFeign modelManageFeign;
+
+    String[] techniques=new String[]{"failurePredict"};
 
     private static int MAX_STAGE_NUM=10;
 
@@ -478,9 +485,30 @@ public class CIPipelineConfigInfoService {
         logger.info("[trainModel] start train models of ci optimize technique: configInfo");
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5,10,1, TimeUnit.SECONDS,new ArrayBlockingQueue<>(10));
         threadPoolExecutor.execute(new Thread(new Runnable(){
+            @SneakyThrows
             @Override
             public void run() {
-                trainCIResultPredictModel(configInfo);
+                JSONObject modelInfos=new JSONObject();
+                modelInfos.put("configInfoId",configInfo.getConfigInfoId());
+                modelInfos.put("configName",configInfo.getConfigName());
+                modelInfos.put("codeBaseUrl",configInfo.getCodeBaseUrl());
+                modelInfos.put("codeBaseBranch",configInfo.getCodeBaseBranch());
+                JSONArray modelList=new JSONArray();
+                for(int i=1;i<=configInfo.getCiStageNum();i++){
+                    CIStage ciStage=getCIStage(i,configInfo);
+                    if(ciStage.getHasModel()){
+                        String modelName=ciStage.getModelName();
+                        if(Arrays.asList(techniques).contains(modelName)){
+                            JSONObject model=new JSONObject();
+                            model.put("modelName",modelName);
+                            model.put("trainSetModeId",ciStage.getModelTrainSetMode().getTrainSetModeId());
+                            model.put("updateModeId",ciStage.getModelUpdateMode().getUpdateModeId());
+                            modelList.add(model);
+                        }
+                    }
+                }
+                modelInfos.put("modelList",modelList);
+                modelManageFeign.addModels(modelInfos.toString());
             }
         }));
     }
