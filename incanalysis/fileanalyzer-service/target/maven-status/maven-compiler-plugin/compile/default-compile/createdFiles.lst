@@ -1,0 +1,8 @@
+com\artdev\config\BeanConfig.class
+com\artdev\service\FileAnalyzerService.class
+com\artdev\analyzers\Analyzer.class
+com\artdev\analyzers\checkstyle\CheckStyleAnalyzer.class
+com\artdev\FileAnalyzerApplication.class
+com\artdev\service\serviceImpl\FileAnalyzerServiceImpl.class
+com\artdev\analyzers\pylint\PylintAnalyzer.class
+com\artdev\controller\FileAnalyzerController.class

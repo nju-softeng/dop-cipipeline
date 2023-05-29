@@ -1,0 +1,10 @@
+com\artdev\config\CorsConfig.class
+com\artdev\DriverService.class
+com\artdev\service\analyzer\AnalyzerService.class
+com\artdev\service\client\CompAnalyzerClient.class
+com\artdev\config\FeignMultipartSupportConfig.class
+com\artdev\config\WebResourceConfig.class
+com\artdev\service\serviceimpl\analyzer\AnalyzerServiceImpl.class
+com\artdev\controller\analyzer\AnalyzerController.class
+com\artdev\service\client\DepAnalyzerClient.class
+com\artdev\service\client\FileAnalyzerClient.class

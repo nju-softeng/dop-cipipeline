@@ -1,0 +1,8 @@
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\config\BeanConfig.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\service\CompAnalyzerService.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\analyzers\flake8\Flake8Analyzer.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\service\serviceImpl\CompAnalyzerServiceImpl.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\CompAnalyzerApplication.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\analyzers\Analyzer.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\analyzers\errorprone\ErrorProneAnalyzer.java
+D:\Java\deploy\incanalysis\companalyzer-service\src\main\java\com\artdev\controller\CompAnalyzerController.java

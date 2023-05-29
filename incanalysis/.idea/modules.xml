@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/common-api/common-api.iml" filepath="$PROJECT_DIR$/common-api/common-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/companalyzer-service/companalyzer-service.iml" filepath="$PROJECT_DIR$/companalyzer-service/companalyzer-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/depanalyzer-service/depanalyzer-service.iml" filepath="$PROJECT_DIR$/depanalyzer-service/depanalyzer-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/driver-service/driver-service.iml" filepath="$PROJECT_DIR$/driver-service/driver-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-service/eureka-service.iml" filepath="$PROJECT_DIR$/eureka-service/eureka-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fileanalyzer-service/fileanalyzer-service.iml" filepath="$PROJECT_DIR$/fileanalyzer-service/fileanalyzer-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/incanalysis.iml" filepath="$PROJECT_DIR$/incanalysis.iml" />
+    </modules>
+  </component>
+</project>

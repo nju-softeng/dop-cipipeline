@@ -1,0 +1,8 @@
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\controller\FileAnalyzerController.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\config\BeanConfig.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\service\serviceImpl\FileAnalyzerServiceImpl.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\analyzers\pylint\PylintAnalyzer.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\analyzers\Analyzer.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\analyzers\checkstyle\CheckStyleAnalyzer.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\FileAnalyzerApplication.java
+D:\Java\deploy\incanalysis\fileanalyzer-service\src\main\java\com\artdev\service\FileAnalyzerService.java

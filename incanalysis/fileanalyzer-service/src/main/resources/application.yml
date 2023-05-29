@@ -1,0 +1,16 @@
+server:
+  port: 8802
+spring:
+  application:
+    name: fileanalyzerservice
+eureka:
+  client:
+    #设置注册中心的地址，注意加空格，访问地址localhost:7001
+    service-url:
+      defaultZone: http://172.29.7.159:6861/eureka/
+
+web:
+  file-save-path: tempFile/
+  path: lib/
+checkstyle:
+  checkstyle-jar-name: checkstyle-9.2.1-all.jar

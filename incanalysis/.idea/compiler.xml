@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common-api" />
+        <module name="fileanalyzer-service" />
+        <module name="driver-service" />
+        <module name="companalyzer-service" />
+        <module name="eureka-service" />
+        <module name="depanalyzer-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common-api" target="8" />
+      <module name="companalyzer-service" target="8" />
+      <module name="depanalyzer-service" target="8" />
+      <module name="driver-service" target="8" />
+      <module name="eureka-service" target="8" />
+      <module name="fileanalyzer-service" target="8" />
+      <module name="incanalysis" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-api" options="-parameters" />
+      <module name="companalyzer-service" options="-parameters" />
+      <module name="depanalyzer-service" options="-parameters" />
+      <module name="driver-service" options="-parameters" />
+      <module name="eureka-service" options="-parameters" />
+      <module name="fileanalyzer-service" options="-parameters" />
+      <module name="incanalysis" options="-parameters" />
+    </option>
+  </component>
+</project>

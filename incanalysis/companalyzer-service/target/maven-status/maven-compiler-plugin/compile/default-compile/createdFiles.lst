@@ -1,0 +1,8 @@
+com\artdev\analyzers\flake8\Flake8Analyzer.class
+com\artdev\config\BeanConfig.class
+com\artdev\analyzers\Analyzer.class
+com\artdev\service\serviceImpl\CompAnalyzerServiceImpl.class
+com\artdev\CompAnalyzerApplication.class
+com\artdev\controller\CompAnalyzerController.class
+com\artdev\service\CompAnalyzerService.class
+com\artdev\analyzers\errorprone\ErrorProneAnalyzer.class

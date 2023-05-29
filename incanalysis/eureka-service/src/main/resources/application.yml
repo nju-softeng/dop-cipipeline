@@ -1,0 +1,18 @@
+server:
+  port: 8808
+spring:
+  application:
+    name: eurekaservice
+eureka:
+  client:
+    #表示是否将自己注册到Eureka-Server中，默认true
+    register-with-eureka: false
+    #false表示自己端就是注册中心，职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: false
+    #设置注册中心的地址，注意加空格，访问地址localhost:7001
+    service-url:
+      defaultZone: http://localhost:8808/eureka/
+
+    server:
+      # 是否启用自我保护机制
+      enable-self-preservation: false
