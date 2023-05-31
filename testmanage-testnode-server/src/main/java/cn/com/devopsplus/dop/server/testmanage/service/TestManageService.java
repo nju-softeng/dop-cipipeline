@@ -1,6 +1,7 @@
 package cn.com.devopsplus.dop.server.testmanage.service;
 
 import cn.com.devopsplus.dop.server.testmanage.config.JobConfig;
+import cn.com.devopsplus.dop.server.testmanage.feign.CodeCheckFeign;
 import cn.com.devopsplus.dop.server.testmanage.util.JenkinsUtils;
 import cn.com.devopsplus.dop.server.testmanage.util.ShellUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -399,6 +400,8 @@ public class TestManageService {
 class StaticCodeCheck implements Callable<JSONObject> {
     private String codeBasePath;
     private long projectId;
+    @Autowired
+    CodeCheckFeign codeCheckFeign;
 
     public StaticCodeCheck(String codeBasePath,long projectId){
         super();
@@ -410,11 +413,11 @@ class StaticCodeCheck implements Callable<JSONObject> {
     public JSONObject call() throws Exception {
         // 静态代码检查调用
         System.out.println("静态代码检查调用");
-        Thread.currentThread().sleep(60000);
+        String codeCheckResult=codeCheckFeign.getAnalyzerResult(codeBasePath);
         System.out.println("静态代码检查调用完成");
         JSONObject staticCodeCheckResult=new JSONObject();
         staticCodeCheckResult.put("staticCodeCheckResult","Success");
-        staticCodeCheckResult.put("log","...");
+        staticCodeCheckResult.put("log",codeCheckResult);
         return staticCodeCheckResult;
     }
 }
